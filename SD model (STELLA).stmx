@@ -1,0 +1,3104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>My model - Stella - 01.12 FINAL</name>
+		<uuid>ef653bab-c491-44cc-8819-241cbea1b469</uuid>
+		<vendor>isee systems, inc.</vendor>
+		<product version="3.7.3" isee:build_number="3457" isee:saved_by_v1="true" lang="en">Stella Architect</product>
+	</header>
+	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.0555556" isee:restore_on_start="false" method="Euler" time_units="Years" isee:instantaneous_flows="false" isee:ignore_module_errors="false" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000">
+		<start>2013</start>
+		<stop>2040</stop>
+		<dt reciprocal="true">8</dt>
+	</sim_specs>
+	<isee:prefs saved_runs="5" keep="false" show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="suggesting" isee:design="Deluxe Prev-Next Blue Green Pastel" isee:design_custom="false" interface_scale_ui="true" interface_max_page_width="10000" interface_max_page_height="10000" interface_min_page_width="0" interface_min_page_height="0" rerun_on_structure_change="true" rifp="true">
+		<isee:tag_styles>
+			<isee:tag_style tag="AssemblyInput" fill_color="#AAFF00"/>
+		</isee:tag_styles>
+	</isee:prefs>
+	<isee:multiplayer_settings include_chat="true" allow_observers="false" advance_time_increment="1" max_advance_time_in_ms="0" model_stops_when_players_drop="false" observer_start_page="home_page" enabled="false"/>
+	<isee:time_formats default_format="Builtin">
+		<isee:time_format name="Builtin" type="adaptive"/>
+	</isee:time_formats>
+	<isee:number_format_extenders/>
+	<default_format precision="0.0001" scale_by="scientific"/>
+	<data>
+		<export resource="r../Model output.xlsx" type="Excel" worksheet="Sheet1" interval="1" precomputed="false" isee:format="numbers">
+			<list>r../Model input output.txt</list>
+		</export>
+	</data>
+	<isee:sensi_specs_list active_index="0">
+		<isee:sensi_specs name="Sensitivity" method="sobol_sequence" runs="5">
+			<isee:variable starting_value="" ending_value="" type="incremental" seed="12345" name='"%_of_material_recovered_per_tonne"' num_samples="5"/>
+		</isee:sensi_specs>
+	</isee:sensi_specs_list>
+	<isee:optimizer_specs_list active_index="0">
+		<isee:optimizer_specs name="Optimization" method="Powell" use_additional_starts_file="false" additional_starts="0" report_interval="1" confidence_range="0"/>
+	</isee:optimizer_specs_list>
+	<isee:payoff_specs_list>
+		<isee:payoff_specs name="Payoff"/>
+	</isee:payoff_specs_list>
+	<model_units>
+		<unit name="Dimensionless">
+			<eqn>1</eqn>
+			<alias>dmnl</alias>
+			<alias>unitless</alias>
+			<alias>fraction</alias>
+		</unit>
+		<unit name="People">
+			<eqn/>
+			<alias>person</alias>
+			<alias>persons</alias>
+		</unit>
+		<unit name="Kilograms">
+			<eqn/>
+			<alias>kg</alias>
+			<alias>kilogram</alias>
+		</unit>
+		<unit name="Tonnes">
+			<eqn/>
+			<alias>tonne</alias>
+			<alias>metric ton</alias>
+		</unit>
+		<unit name="Euros">
+			<eqn/>
+			<alias>€</alias>
+			<alias>EUR</alias>
+			<alias>euro</alias>
+		</unit>
+		<unit name="Years">
+			<eqn/>
+			<alias>yr</alias>
+			<alias>year</alias>
+		</unit>
+		<unit name="Per Year">
+			<eqn>1/Years</eqn>
+		</unit>
+		<unit name="kilowatt hours per day">
+			<eqn>kWh/day</eqn>
+		</unit>
+		<unit name="kilowatts">
+			<eqn>kW</eqn>
+			<alias>kilowatt</alias>
+		</unit>
+	</model_units>
+	<model>
+		<variables>
+			<aux name="waste generated\nper person per year">
+				<doc>- Accra Metropolitan Assembly Accra’s per Capita Waste Generation Rate Is 0.70kg per Day—Report. Available online: https:
+//ama.gov.gh/news-details.php?n=OTU3NTU5MjUxNXMwNTcwcDYxczhxczFzb3Izc3M0MHI2cHMyNDFycw== (accessed on
+12 January 2024).
+
+- Miezah, K.; Obiri-Danso, K.; Kádár, Z.; Fei-Baffoe, B.; Mensah, M.Y. Municipal SolidWaste Characterization and Quantification as
+a Measure towards EffectiveWaste Management in Ghana. Waste Manag. 2015, 46, 15–27. [CrossRef]</doc>
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="183" max="282"/>
+					<ypts>183,198.77,211.04,224.62,261.85,266.67,270.61,271.92,273.24,278.5,280.25</ypts>
+				</gf>
+				<units>Kilograms/people/year</units>
+			</aux>
+			<aux name="Total waste (tonnes)\ngenerated per year">
+				<eqn>(Data_waste_generation_tonnes) *(1-STEP(1,STARTTIME+11))
++ STEP(1,STARTTIME+11)
+*(Population_Data*waste_generated_per_person_per_year/Convert_kg_to_Tonnes)</eqn>
+				<units>Tonnes/year</units>
+			</aux>
+			<stock name="Age cohort 0-19">
+				<eqn>&quot;INITIAL_Age_cohort_0-19&quot;</eqn>
+				<inflow>birth_rate</inflow>
+				<outflow>&quot;Maturing_0-19&quot;</outflow>
+				<outflow>&quot;death_rates_0-19&quot;</outflow>
+				<units>people</units>
+			</stock>
+			<flow name="birth rate">
+				<eqn>fractional_birth_rate*Total_population</eqn>
+				<units>people/Years</units>
+			</flow>
+			<stock name="Age cohort 20-39">
+				<eqn>&quot;INITIAL_Age_cohort_20-39&quot;</eqn>
+				<inflow>&quot;Maturing_0-19&quot;</inflow>
+				<inflow>urbanisation_rate</inflow>
+				<outflow>&quot;Maturing_20-39&quot;</outflow>
+				<outflow>&quot;death_rates_20-39&quot;</outflow>
+				<units>people</units>
+			</stock>
+			<flow name="Maturing 0-19">
+				<eqn>&quot;Age_cohort_0-19&quot;/&quot;Maturation_time_0-19&quot;</eqn>
+				<units>people/Years</units>
+			</flow>
+			<stock name="Age cohort 40-59">
+				<eqn>&quot;INITIAL_Age_cohort_40-59&quot;</eqn>
+				<inflow>&quot;Maturing_20-39&quot;</inflow>
+				<outflow>&quot;Maturing_40-59&quot;</outflow>
+				<outflow>&quot;death_rates_40-59&quot;</outflow>
+				<units>people</units>
+			</stock>
+			<stock name="Age cohort 60+">
+				<eqn>&quot;INITIAL_Age_cohort_60+&quot;</eqn>
+				<inflow>&quot;Maturing_40-59&quot;</inflow>
+				<outflow>&quot;Maturing_60+&quot;</outflow>
+				<outflow>&quot;death_rates_60+&quot;</outflow>
+				<units>people</units>
+			</stock>
+			<flow name="Maturing 20-39">
+				<eqn>&quot;Age_cohort_20-39&quot;/&quot;Maturation_time_20-39&quot;</eqn>
+				<units>people/Years</units>
+			</flow>
+			<flow name="Maturing 40-59">
+				<eqn>&quot;Age_cohort_40-59&quot;/&quot;Maturation_time_40-59&quot;</eqn>
+				<units>people/Years</units>
+			</flow>
+			<flow name="Maturing 60+">
+				<eqn>&quot;Age_cohort_60+&quot;/&quot;Maturation_time_60+&quot;</eqn>
+				<units>people/Years</units>
+			</flow>
+			<stock name="Attribute population\nclass 0-19">
+				<doc>Explanation: people in this age group with some Environmental Attribute</doc>
+				<eqn>&quot;INITIAL_Attribute_Population_class_0-19&quot;</eqn>
+				<inflow>increasing_attribute</inflow>
+				<outflow>decreasing_attribute</outflow>
+				<units>People</units>
+			</stock>
+			<flow name="increasing\nattribute">
+				<eqn>(&quot;Marginal_attribute_for_age_cohort_0-19&quot; + Delayed_impact) * birth_rate</eqn>
+				<units>People/Years</units>
+			</flow>
+			<flow name="decreasing\nattribute">
+				<eqn>(&quot;average_attribute_0-19&quot;)*&quot;Maturing_0-19&quot;</eqn>
+				<units>People/Years</units>
+			</flow>
+			<aux name="Marginal attribute\nfor age cohort 0-19">
+				<doc>${AssemblyInput}
+Source: Survey Green Academy Project</doc>
+				<eqn>0.19</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="average\nattribute 0-19">
+				<eqn>&quot;Attribute_population_class_0-19&quot; / &quot;Age_cohort_0-19&quot;</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<stock name="Attribute Population\nclass 20-39">
+				<eqn>&quot;INITIAL_Attribute_Population_class_20-39&quot;</eqn>
+				<inflow>decreasing_attribute</inflow>
+				<inflow>environmental_knowledge_increasing_2</inflow>
+				<outflow>decreasing_attribute_2</outflow>
+				<units>People</units>
+			</stock>
+			<aux name="average attribute 20-39">
+				<eqn>&quot;Attribute_Population_class_20-39&quot;/&quot;Age_cohort_20-39&quot;</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<flow name="decreasing\nattribute 2">
+				<eqn>(&quot;average_attribute_20-39&quot;)*&quot;Maturing_20-39&quot;</eqn>
+				<units>People/Years</units>
+			</flow>
+			<stock name="Attribute Population\nclass 40-59">
+				<eqn>&quot;INITIAL_Attribute_Population_class_40-59&quot;</eqn>
+				<inflow>decreasing_attribute_2</inflow>
+				<inflow>environmental_knowledge_increasing_3</inflow>
+				<outflow>decreasing_attribute_3</outflow>
+				<units>People</units>
+			</stock>
+			<stock name="Attribute Population\nclass 60+">
+				<eqn>&quot;INITIAL_Attribute_Population_class_60+&quot;</eqn>
+				<inflow>decreasing_attribute_3</inflow>
+				<inflow>environmental_knowledge_increasing_4</inflow>
+				<outflow>decreasing_attribute_4</outflow>
+				<units>People</units>
+			</stock>
+			<flow name="decreasing\nattribute 3">
+				<eqn>(&quot;average_attribute_40-59&quot;)*&quot;Maturing_40-59&quot;</eqn>
+				<units>People/Years</units>
+			</flow>
+			<flow name="decreasing\nattribute 4">
+				<eqn>&quot;average_attribute_60+&quot;*&quot;Maturing_60+&quot;</eqn>
+				<units>People/Years</units>
+			</flow>
+			<aux name="average attribute 40-59">
+				<eqn>&quot;Attribute_Population_class_40-59&quot;/&quot;Age_cohort_40-59&quot;</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="average attribute 60+">
+				<eqn>&quot;Attribute_Population_class_60+&quot;/&quot;Age_cohort_60+&quot;</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="fractional birth rate">
+				<eqn>32/1000</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="death rate 60+">
+				<doc>Source: Ghana Statistical Service, 2014, Population &amp; Housing Census Report (https://www.statsghana.gov.gh/gssmain/fileUpload/pressrelease/Mortality%20in%20Ghana.pdf)</doc>
+				<eqn>0.136/1000</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="Total population">
+				<eqn>&quot;Age_cohort_0-19&quot;+&quot;Age_cohort_20-39&quot;+&quot;Age_cohort_40-59&quot;+&quot;Age_cohort_60+&quot;</eqn>
+				<units>people</units>
+			</aux>
+			<flow name="death rates 0-19">
+				<eqn>&quot;death_rate_0-19&quot;*&quot;Age_cohort_0-19&quot;</eqn>
+				<units>people/Years</units>
+			</flow>
+			<flow name="death rates 20-39">
+				<eqn>&quot;death_rate_20-39&quot;*&quot;Age_cohort_20-39&quot;</eqn>
+				<units>people/Years</units>
+			</flow>
+			<flow name="death rates 40-59">
+				<eqn>&quot;death_rate_40-59&quot;*&quot;Age_cohort_40-59&quot;</eqn>
+				<units>people/Years</units>
+			</flow>
+			<aux name="death rate 40-59">
+				<doc>Source: Ghana Statistical Service, 2014, Population &amp; Housing Census Report (https://www.statsghana.gov.gh/gssmain/fileUpload/pressrelease/Mortality%20in%20Ghana.pdf)</doc>
+				<eqn>0.032/1000</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="death rate 20-39">
+				<doc>Source: Ghana Statistical Service, 2014, Population &amp; Housing Census Report (https://www.statsghana.gov.gh/gssmain/fileUpload/pressrelease/Mortality%20in%20Ghana.pdf)</doc>
+				<eqn>0.013/1000</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="death rate 0-19">
+				<doc>Source: Ghana Statistical Service, 2014, Population &amp; Housing Census Report (https://www.statsghana.gov.gh/gssmain/fileUpload/pressrelease/Mortality%20in%20Ghana.pdf)</doc>
+				<eqn>0.044/1000</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="Maturation time 40-59">
+				<eqn>20</eqn>
+				<units>Years</units>
+			</aux>
+			<aux name="Maturation time 20-39">
+				<eqn>20</eqn>
+				<units>Years</units>
+			</aux>
+			<aux name="Maturation time 0-19">
+				<eqn>20</eqn>
+				<units>Years</units>
+			</aux>
+			<aux name="Total\nWeighted Average Attribute">
+				<eqn>(&quot;average_attribute_0-19&quot;*&quot;Age_cohort_0-19&quot;/Total_population
++&quot;average_attribute_20-39&quot;*&quot;Age_cohort_20-39&quot;/Total_population
++&quot;average_attribute_40-59&quot;*&quot;Age_cohort_40-59&quot;/Total_population
++&quot;average_attribute_60+&quot;*&quot;Age_cohort_60+&quot;/Total_population)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="INITIAL VALUE\nSource-seperated waste 2013">
+				<doc>Initial value of source-separated waste is close to zero.</doc>
+				<eqn>1</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="INITIAL VALUE Source-separated\nWaste Collected\nfor Recycling 2013">
+				<doc>Initial value of source-separated waste collected is close to zero.</doc>
+				<eqn>1</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="INITIAL VALUE Source-separated\nwaste recycled 2013">
+				<doc>Initial value of source-separated waste recovered is close to zero.</doc>
+				<eqn>1</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="INITIAL VALUE Mixed waste 2013">
+				<doc>(GSS/EPA, 2020)
+657000 tonnes</doc>
+				<eqn>657000</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="INITIAL VALUE Uncollected waste 2013">
+				<doc>About 20% of generated waste (Oteng-Ababio et al., 2013)
+</doc>
+				<eqn>INITIAL_VALUE_Mixed_waste_2013*0.02</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="INITIAL VALUE Collected by informal - Mixed 2013">
+				<doc>About 10% of generated waste (Oteng-Ababio et al., 2013)
+</doc>
+				<eqn>INITIAL_VALUE_Mixed_waste_2013*0.01</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="INITIAL VALUE Collected by formal - Mixed 2013">
+				<doc>About 70% of generated waste (Oteng-Ababio et al., 2013)
+</doc>
+				<eqn>INITIAL_VALUE_Mixed_waste_2013*0.7</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="INITIAL VALUE Waste inventory of\nformal recyclers 2013">
+				<doc>This value is close to zero, since the ACARP recovery plants got established in 2012 and IRECOP in 2019 (Source: https://ama.gov.gh/)</doc>
+				<eqn>&quot;INITIAL_VALUE_Collected_by_informal_-_Mixed_2013&quot;+&quot;INITIAL_VALUE_Collected_by_formal_-_Mixed_2013&quot;</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="INITIAL VALUE Value recovered 2013">
+				<eqn>100</eqn>
+				<units>Euros</units>
+			</aux>
+			<aux name="INITIAL VALUE Dumpsite 2013">
+				<eqn>100</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="INITIAL VALUE\nWaste in landfill 2013">
+				<doc>Since Kpone was constructed in 2013 (Salifu, 2019)
+520000</doc>
+				<eqn>0</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<group name="KPIs" run="false">
+				<format precision="auto" scale_by="auto"/>
+				<entity name='"%_of_waste_recovered_per_year"'/>
+				<entity name='"On-site_separation_rate"'/>
+				<entity name="Collection_coverage_for_calibration"/>
+			</group>
+			<aux name="% of waste recovered per year">
+				<eqn>SAFEDIV((Material_recovery_by_informal_sector+
+&quot;On-Site_waste_-_Material_Recovered&quot;+
+&quot;Material_recovered_by_ACARP_&amp;_IRECOP&quot;), &quot;Total_waste_(tonnes)_generated_per_year&quot;, 0)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Collection coverage for calibration">
+				<eqn>(Informal_waste_collecting+Formal_waste_collecting+&quot;collection_of_recyclables_(formal)&quot;)/&quot;Total_waste_(tonnes)_generated_per_year&quot;</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="On-site separation rate">
+				<eqn>SAFEDIV(&quot;on-site_separation&quot;, &quot;Total_waste_(tonnes)_generated_per_year&quot;, 0)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Convert kg to Tonnes">
+				<eqn>1000</eqn>
+				<units>Kilograms/Tonnes</units>
+			</aux>
+			<aux name="Input">
+				<eqn>PULSE (Magnitude,  first_pulse,  interval)</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="Delayed impact">
+				<eqn>MIN(0.3, DELAYN(Input, &quot;delay_(time_effect)_duration&quot;, 2, initial_value)) * year</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Magnitude">
+				<doc>It reflects the actual impact of the educational intervention
+
+magnitude =1 =&gt; Input =8
+magnitude =2 =&gt; Input =16
+magnitude =2 =&gt; Input =24
+magnitude =8 =&gt; Input =64</doc>
+				<eqn>0.4</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="first pulse">
+				<eqn>STARTTIME+1</eqn>
+				<units>Years</units>
+			</aux>
+			<aux name="interval">
+				<eqn>2</eqn>
+				<units>Years</units>
+			</aux>
+			<aux name="delay (time effect) duration">
+				<doc>Scenario test parameter.
+Takes the value of 0.4 under Scenario 2 and 5.</doc>
+				<eqn>0.5+STEP(0.0, 2024)</eqn>
+				<units>Years</units>
+			</aux>
+			<aux name="initial value">
+				<eqn>0</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="INITIAL Attribute Population\nclass 20-39">
+				<doc>Source: Adjei-Mantey, K., Inglesi-Lotz, R., &amp; Amoah, A. (2024). Environmental consciousness and household energy poverty in Ghana. Global Environmental Change, 88, 102896.</doc>
+				<eqn>&quot;INITIAL_Age_cohort_20-39&quot;*0.2</eqn>
+				<units>people</units>
+			</aux>
+			<aux name="INITIAL Attribute Population\nclass 0-19">
+				<eqn>&quot;INITIAL_Age_cohort_0-19&quot;*0.2</eqn>
+				<units>people</units>
+			</aux>
+			<aux name="INITIAL Attribute Population\nclass 40-59">
+				<doc>Source: Adjei-Mantey, K., Inglesi-Lotz, R., &amp; Amoah, A. (2024). Environmental consciousness and household energy poverty in Ghana. Global Environmental Change, 88, 102896.</doc>
+				<eqn>&quot;INITIAL_Age_cohort_40-59&quot;*0.2</eqn>
+				<units>people</units>
+			</aux>
+			<aux name="INITIAL Attribute Population\nclass 60+">
+				<doc>Source: Adjei-Mantey, K., Inglesi-Lotz, R., &amp; Amoah, A. (2024). Environmental consciousness and household energy poverty in Ghana. Global Environmental Change, 88, 102896.</doc>
+				<eqn>&quot;INITIAL_Age_cohort_60+&quot;*0.2</eqn>
+				<units>people</units>
+			</aux>
+			<aux name="Constant effect of\nenvironmental campaigns #1">
+				<eqn>0.2*(1+Boost_of_environmental_campaigns)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<flow name="death rates 60+">
+				<eqn>&quot;death_rate_60+&quot;*&quot;Age_cohort_60+&quot;</eqn>
+				<units>people/Years</units>
+			</flow>
+			<aux name="Maturation time 60+">
+				<eqn>10</eqn>
+				<units>Years</units>
+			</aux>
+			<aux name="INITIAL Age cohort 60+">
+				<doc>Age Distribution rates: https://www.citypopulation.de/en/ghana/admin/03__greater_accra/
+Initial population = 3.6 millions, based on World Bank, 2020a</doc>
+				<eqn>0.06*3600000</eqn>
+				<units>people</units>
+			</aux>
+			<aux name="INITIAL Age cohort 40-59">
+				<doc>Age Distribution rates: https://www.citypopulation.de/en/ghana/admin/03__greater_accra/
+Initial population = 3.6 millions, based on World Bank, 2020a</doc>
+				<eqn>0.17*3600000</eqn>
+				<units>people</units>
+			</aux>
+			<aux name="INITIAL Age cohort 20-39">
+				<doc>Age Distribution rates: https://www.citypopulation.de/en/ghana/admin/03__greater_accra/
+Initial population = 3.6 millions, based on World Bank, 2020a</doc>
+				<eqn>0.38*3600000</eqn>
+				<units>people</units>
+			</aux>
+			<aux name="INITIAL Age cohort 0-19">
+				<doc>Age Distribution rates: https://www.citypopulation.de/en/ghana/admin/03__greater_accra/
+Initial population = 3.6 millions, based on World Bank, 2020a</doc>
+				<eqn>0.39*3600000</eqn>
+				<units>people</units>
+			</aux>
+			<flow name="urbanisation rate">
+				<eqn>&quot;Age_cohort_20-39&quot; * &quot;Urbanisation_rate_cohort_20-39&quot;</eqn>
+				<units>people/Years</units>
+			</flow>
+			<aux name="Urbanisation rate cohort 20-39" isee:derived_units="true">
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0.03" max="0.035"/>
+					<ypts>0.033866,0.033866,0.033845,0.033803,0.033739,0.033634,0.033571,0.033487,0.033445,0.033424,0.033382,0.033319,0.033277,0.033214,0.033172,0.033109,0.033046,0.033004,0.032941,0.032878,0.032815,0.032752,0.032626,0.032563,0.0325,0.0325,0.0325,0.0325</ypts>
+				</gf>
+				<units>1/Years</units>
+			</aux>
+			<aux name="Constant effect of\nenvironmental campaigns #2">
+				<eqn>0.2*(1+Boost_of_environmental_campaigns)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Constant effect of\nenvironmental campaigns #3">
+				<eqn>0.2*(1+Boost_of_environmental_campaigns)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<flow name="environmental\nknowledge increasing 3">
+				<eqn>&quot;Constant_effect_of_environmental_campaigns_#2&quot;*decreasing_attribute_2</eqn>
+				<units>People/Years</units>
+			</flow>
+			<flow name="environmental\nknowledge increasing 2">
+				<eqn>&quot;Constant_effect_of_environmental_campaigns_#1&quot;*decreasing_attribute</eqn>
+				<units>People/Years</units>
+			</flow>
+			<flow name="environmental\nknowledge increasing 4">
+				<eqn>&quot;Constant_effect_of_environmental_campaigns_#3&quot;*decreasing_attribute_3</eqn>
+				<units>People/Years</units>
+			</flow>
+			<aux name="% of population with\nEnvironmental knowledge">
+				<eqn>Total_Weighted_Average_Attribute</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Boost of environmental\ncampaigns">
+				<doc>Scenario test parameter.
+Takes the value of 0.5 under Scenario 2a and 1 under scenario 2b and 5.</doc>
+				<eqn>STEP(0, 2024)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Data waste generation tonnes">
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0" max="100"/>
+					<ypts>657000,728789.9225,780808,822875.8005,871282.3749,970397.3767,1024224.398,1126118.178,1253830.898,1359824.394,1430233.236,1430233.236,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</ypts>
+				</gf>
+				<units>Tonnes/year</units>
+			</aux>
+			<aux name="Population Data">
+				<eqn>TIME</eqn>
+				<gf isee:roll_forward="true">
+					<xscale min="2013" max="2040"/>
+					<yscale min="0" max="2"/>
+					<ypts>3650000,3700000,3820000,3950000,4140000,4330000,4490000,4680000,4890000,5080000,5240000,5400000,5590000,5780000,5990000,6210000,6350000,6457913,6957913,7280000,7630000,8040000,8360000,8680000,8980000,9540000,9730000,10000000</ypts>
+				</gf>
+				<units>People</units>
+			</aux>
+			<aux name="On-site separated rate!">
+				<eqn>&quot;on-site_separation&quot;/&quot;Total_waste_(tonnes)_generated_per_year&quot;</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="year">
+				<eqn>1</eqn>
+				<units>year</units>
+			</aux>
+			<flow name="on-site separation">
+				<eqn>&quot;On-site_separated_rate&quot; * &quot;Total_waste_(tonnes)_generated_per_year&quot;</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<stock name="Source-separated waste">
+				<eqn>&quot;INITIAL_VALUE_Source-seperated_waste_2013&quot;</eqn>
+				<inflow>&quot;on-site_separation&quot;</inflow>
+				<outflow>&quot;collection_of_recyclables_(formal)&quot;</outflow>
+				<outflow>dumping_stage_1</outflow>
+				<units>tonnes</units>
+			</stock>
+			<stock name="Waste Collected for Recycling">
+				<eqn>&quot;INITIAL_VALUE_Source-separated_Waste_Collected_for_Recycling_2013&quot;</eqn>
+				<inflow>&quot;collection_of_recyclables_(formal)&quot;</inflow>
+				<outflow>Waste_recycling</outflow>
+				<outflow>dumping_stage_2</outflow>
+				<units>tonnes</units>
+			</stock>
+			<flow name="collection of recyclables (formal)">
+				<eqn>&quot;Source-separated_waste&quot;*&quot;Reference_collection_rate_for_source-separated_waste&quot;</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<stock name="Recycled Material">
+				<eqn>&quot;INITIAL_VALUE_Source-separated_waste_recycled_2013&quot;</eqn>
+				<inflow>Waste_recycling</inflow>
+				<outflow>&quot;On-Site_waste_-_Material_Recovered&quot;</outflow>
+				<units>tonnes</units>
+			</stock>
+			<flow name="Waste recycling">
+				<doc>IF &quot;Recycling_capacity_(per_year)&quot;&lt;&quot;Source-separated_waste_collected&quot;
+THEN  &quot;Recycling_capacity_(per_year)&quot;*&quot;Reference_recycling_rate_for_source-separated_waste&quot;
+ELSE &quot;Source-separated_waste_collected&quot;*&quot;Reference_recycling_rate_for_source-separated_waste&quot;</doc>
+				<eqn>&quot;Reference_recycling_rate_for_source-separated_waste&quot;*Waste_Collected_for_Recycling</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<aux name="% of population that separate waste">
+				<doc>under the assumption that all people generate the same amount of waste</doc>
+				<eqn>&quot;%_of_people_with_Env_Knowledge_that_separate_waste&quot;*&quot;%_of_population_with_Environmental_knowledge&quot;</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Reference collection rate\nfor source-separated waste">
+				<doc>(World Bank, 2018)</doc>
+				<eqn>0.99</eqn>
+				<units>Per Year</units>
+			</aux>
+			<flow name="dumping stage 1">
+				<eqn>&quot;Source-separated_waste&quot;*(1-&quot;Reference_collection_rate_for_source-separated_waste&quot;)</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<flow name="dumping stage 2">
+				<doc>
+
+
+MAX(0, (Waste_Collected_for_Recycling*&quot;Reference_recycling_rate_for_source-separated_waste&quot;)-&quot;Recycling_capacity_(per_year)&quot;)
+
+
+
+1-(IF &quot;Recycling_capacity_(per_year)&quot;&lt;&quot;Source-separated_waste_collected&quot;
+THEN  &quot;Recycling_capacity_(per_year)&quot;*&quot;Reference_recycling_rate_for_source-separated_waste&quot;
+ELSE &quot;Source-separated_waste_collected&quot;*&quot;Reference_recycling_rate_for_source-separated_waste&quot;)</doc>
+				<eqn>Waste_Collected_for_Recycling*(1-&quot;Reference_recycling_rate_for_source-separated_waste&quot;)</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<aux name="% of people with Env\nKnowledge that separate waste">
+				<doc>Source: Amoah &amp; Addoah, 2021</doc>
+				<eqn>0.719</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<flow name="On-Site waste - Material\nRecovered">
+				<eqn>Recycled_Material/year</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<aux name="Reference recycling rate\nfor source-separated waste">
+				<eqn>0.99</eqn>
+				<units>Per Year</units>
+			</aux>
+			<stock name="Mixed waste">
+				<eqn>INITIAL_VALUE_Mixed_waste_2013</eqn>
+				<inflow>mixed_waste_generation</inflow>
+				<outflow>Uncollected_waste_flow</outflow>
+				<outflow>Informal_waste_collecting</outflow>
+				<outflow>Formal_waste_collecting</outflow>
+				<units>tonnes</units>
+			</stock>
+			<flow name="mixed waste generation">
+				<eqn>&quot;Total_waste_(tonnes)_generated_per_year&quot;-&quot;on-site_separation&quot;</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<stock name="Uncollected waste">
+				<eqn>INITIAL_VALUE_Uncollected_waste_2013</eqn>
+				<inflow>Uncollected_waste_flow</inflow>
+				<outflow>dumping_waste</outflow>
+				<units>tonnes</units>
+			</stock>
+			<flow name="Uncollected waste flow">
+				<eqn>Mixed_waste*uncollected_waste_rate</eqn>
+				<units>tonnes/Year</units>
+			</flow>
+			<aux name="Peer Effect Dynamics\nfor a Circular Economy">
+				<doc>MIN(SAFEDIV((Mixed_waste/year), &quot;Total_waste_(tonnes)_generated_per_year&quot;, 0)^Sensitivity_to_Peer_Effects, 0.12)
+
+
+0.2*(Mixed_waste / &quot;Total_waste_(tonnes)_generated_per_year&quot;)</doc>
+				<eqn>1/(1+Mixed_waste/MAX(1, &quot;Source-separated_waste&quot;))^Sensitivity_to_Waste_Ubiquity</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Sensitivity to Waste Ubiquity">
+				<eqn>0.3</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<stock name="Mixed Waste\ncollected by informal">
+				<eqn>&quot;INITIAL_VALUE_Collected_by_informal_-_Mixed_2013&quot;</eqn>
+				<inflow>Informal_waste_collecting</inflow>
+				<outflow>Material_recovery_by_informal_sector</outflow>
+				<outflow>&quot;waste_transferring_-_informal&quot;</outflow>
+				<units>tonnes</units>
+			</stock>
+			<flow name="Informal waste collecting">
+				<eqn>Mixed_waste * &quot;collection_rate_-_informal&quot;</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<flow name="dumping waste">
+				<eqn>Uncollected_waste * dumping_rate</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<stock name="Dumped waste into\ndrainages or open spaces.">
+				<eqn>0</eqn>
+				<inflow>dumping_waste</inflow>
+				<units>tonnes</units>
+			</stock>
+			<aux name="dumping rate" isee:derived_units="true">
+				<doc>Quartey, V. (2023). Population in Ghana-an analysis of growth trends and implications for development planning In. University of Ghana: POLICY BRIEF.</doc>
+				<eqn>0.9</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="uncollected waste rate">
+				<eqn>1-(&quot;collection_rate_-_formal&quot;+&quot;collection_rate_-_informal&quot;)</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="collection rate - formal">
+				<eqn>MAX((Reference_collection_rate_formal *(1+ Resource_gain_rate_f*year)), Reference_collection_rate_formal)</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="Reference collection\nrate formal">
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0.2" max="0.8"/>
+					<ypts>0.3008,0.296,0.308,0.308,0.308,0.3152,0.32,0.3272,0.3416,0.344,0.3488</ypts>
+				</gf>
+				<units>Per Year</units>
+			</aux>
+			<aux name="collection rate - informal">
+				<eqn>Informal_collection_increases_due_to_collection_GAP</eqn>
+				<units>Per Year</units>
+			</aux>
+			<flow name="Formal waste collecting">
+				<eqn>Mixed_waste * &quot;collection_rate_-_formal&quot;</eqn>
+				<units>Tonnes/year</units>
+			</flow>
+			<aux name="collection gap to cover" isee:derived_units="true">
+				<eqn>1-&quot;collection_rate_-_formal&quot;</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="Informal collection increases due to collection GAP" isee:derived_units="true">
+				<eqn>MAX(0, collection_gap_to_cover*Informal_collectors_sensitivity_to_the_collection_gap)</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="Informal collectors sensitivity to\nthe collection gap">
+				<doc>Scenario test parameter.
+Takes the value of 0.8 under Scenario 3 and 5</doc>
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0.1" max="1"/>
+					<ypts>0.4744,0.4924,0.5068,0.5212,0.5356,0.55,0.5644,0.6148,0.658,0.658,0.6544,0.6526,0.6508,0.6508,0.6508,0.6544,0.658,0.658,0.658,0.658,0.6616,0.658,0.658,0.658,0.658,0.658,0.658,0.6544</ypts>
+				</gf>
+				<units>Dimensionless</units>
+			</aux>
+			<flow name="Material recovery\nby informal sector">
+				<eqn>Mixed_Waste_collected_by_informal * waste_recovery_rate_of_informal_sector</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<aux name="waste recovery rate\nof informal sector">
+				<eqn>0.05</eqn>
+				<units>Per Year</units>
+			</aux>
+			<stock name="Waste inventory of\nformal recyclers">
+				<eqn>INITIAL_VALUE_Waste_inventory_of_formal_recyclers_2013</eqn>
+				<inflow>&quot;waste_transferring_-_formal&quot;</inflow>
+				<inflow>&quot;waste_transferring_-_informal&quot;</inflow>
+				<outflow>&quot;Mixed_Material_recovering_-_formal&quot;</outflow>
+				<outflow>Waste_Inventory_return_to_landfill</outflow>
+				<outflow>Waste_transferring_to_Nsumnia</outflow>
+				<units>tonnes</units>
+			</stock>
+			<flow name="waste transferring - formal">
+				<eqn>Mixed_Waste_Collected_by_formal * &quot;waste_transferring_-_formal_rate&quot;</eqn>
+				<units>Tonnes/year</units>
+			</flow>
+			<flow name="waste transferring - informal">
+				<eqn>Mixed_Waste_collected_by_informal * &quot;waste_transferring_-_informal_rate&quot;</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<flow name="Mixed Material\nrecovering - formal">
+				<eqn>MIN(Waste_inventory_of_formal_recyclers/Time_Converter, Recovery_capacity_of_mixed_waste)</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<flow name="Waste Inventory\nreturn to landfill">
+				<eqn>(Waste_inventory_of_formal_recyclers/year)-&quot;Mixed_Material_recovering_-_formal&quot;</eqn>
+				<units>Tonnes/year</units>
+			</flow>
+			<aux name="Decomposition rate">
+				<doc>The rate varies significantly depending on the type of material, the conditions within the landfill.
+Source: (Sarquah et al., 2023)</doc>
+				<eqn>0.03</eqn>
+				<units>Per Year</units>
+			</aux>
+			<flow name="Decomposition">
+				<eqn>&quot;Waste_in_landfill_(Kpone)&quot;*(Informal_recovery_rate_from_landfill+Decomposition_rate)</eqn>
+				<units>Tonnes/year</units>
+			</flow>
+			<aux name="Data: Design landfill capacity">
+				<doc>Source: Salifu, 2019
+https://documents1.worldbank.org/curated/fr/775731551156835790/pdf/AFR-Environmental-and-Social-Audit-Kpone-Landfill-Feb2019-P164330.pdf</doc>
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0" max="6000000"/>
+					<ypts>123889,251494,383424,520317,662850,811741,967750,1131687,1304412,1486846,1679970,1884836,2102567,2334370,2581537,2845457,3127620,3429630,3753211,4100218,4472648,4872652,5302547,5764829,6262190,6262190,6262190,6262190</ypts>
+				</gf>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="Overflow of waste in landfill">
+				<eqn>IF(&quot;Data:_Design_landfill_capacity&quot;&gt;&quot;Waste_in_landfill_(Kpone)&quot;) THEN 0 ELSE (&quot;Waste_in_landfill_(Kpone)&quot;-&quot;Data:_Design_landfill_capacity&quot;)</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="Processing capacity in the recovery facilities\n(ACARP + IRECOP) per year">
+				<doc>ACARP has a design capacity of 600 metric tons per 16-hours (started in 2012)
+IRECOP has a capacity to handle 400 tonnes of solid waste on a sixteen (16) hour shift 
+=&gt; 1000 tonnes per day
+
+Sarquah, K., Narra, S., Beck, G., Bassey, U., Antwi, E., Hartmann, M., ... &amp; Nelles, M. (2022). Characterization of municipal solid waste and assessment of its potential for refuse-derived fuel (RDF) valorization. Energies, 16(1), 200.</doc>
+				<eqn>109500+STEP(182500, 2019)</eqn>
+				<units>tonnes/Year</units>
+			</aux>
+			<aux name="Increases in formal\nrecovery capacity">
+				<doc>Scenario test parameter.
+It takes the value of (= 800*365)=292.000 under Scenario 4a
+and the value of (= 1600*365) = 584.000 under Scenario 4a and 5
+
+
+= 200*365 = 73.000
+= 2400 * 365 = 876.000</doc>
+				<eqn>STEP(584000,2024)*0</eqn>
+				<units>Tonnes/year</units>
+			</aux>
+			<aux name="Recovery capacity\nof mixed waste">
+				<eqn>(Working_capacity_of_the_recovery_facilities+Increases_in_formal_recovery_capacity)+(Other_private_sector_recovery_facilities+Increases_in_other_recovery_capacities)</eqn>
+				<units>tonnes/Years</units>
+			</aux>
+			<aux name="Time Converter">
+				<eqn>1</eqn>
+				<units>Years</units>
+			</aux>
+			<aux name="Value recovered by formal collectors" isee:derived_units="true">
+				<eqn>(&quot;Mixed_Material_recovering_-_formal&quot;*&quot;%_of_material_recovered_per_tonne&quot;
++&quot;On-Site_waste_-_Material_Recovered&quot;)
+
+*Economic_value_per_tonne_of_material_recovered</eqn>
+				<units>Euros/Years</units>
+			</aux>
+			<aux name="% of material\nrecovered per tonne">
+				<eqn>0.25</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Economic value per tonne\nof material recovered">
+				<doc>1500 Ghana cedis per tonne
+Source:  (Amankwaa &amp; Boafo, 2021).</doc>
+				<eqn>100</eqn>
+				<units>Euros/tonnes</units>
+			</aux>
+			<stock name="Value recovered">
+				<eqn>INITIAL_VALUE_Value_recovered_2013</eqn>
+				<inflow>value_recovering</inflow>
+				<outflow>Annual_Value_Stream</outflow>
+				<units>Euros</units>
+			</stock>
+			<flow name="value recovering">
+				<eqn>Value_recovered_by_formal_collectors</eqn>
+				<units>Euros/Years</units>
+			</flow>
+			<flow name="Annual Value Stream">
+				<eqn>Value_recovered / year</eqn>
+				<units>Euros/Years</units>
+			</flow>
+			<aux name="Quality\nof waste material index">
+				<eqn>DELAY1((formal_collection_rate*0.4) + (&quot;On-site_separation_rate&quot;*0.6),  1)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="rate remaining to landfill">
+				<eqn>(Waste_inventory_of_formal_recyclers-&quot;Mixed_Material_recovering_-_formal&quot;*year)/Waste_inventory_of_formal_recyclers</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="waste receiving" isee:derived_units="true">
+				<eqn>&quot;waste_transferring_-_formal&quot; + &quot;waste_transferring_-_informal&quot;</eqn>
+				<units>Tonnes/year</units>
+			</aux>
+			<stock name="Waste in landfill (Kpone)">
+				<eqn>INITIAL_VALUE_Waste_in_landfill_2013</eqn>
+				<inflow>Waste_Inventory_return_to_landfill</inflow>
+				<outflow>Decomposition</outflow>
+				<units>tonnes</units>
+			</stock>
+			<aux name="Informal recovery rate from landfill">
+				<eqn>0.05</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="waste transferring\n- formal rate">
+				<eqn>0.99</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="waste transferring\n- informal rate">
+				<eqn>0.99</eqn>
+				<units>Per Year</units>
+			</aux>
+			<stock name="Mixed Waste Collected by formal">
+				<eqn>&quot;INITIAL_VALUE_Collected_by_formal_-_Mixed_2013&quot;</eqn>
+				<inflow>Formal_waste_collecting</inflow>
+				<outflow>&quot;waste_transferring_-_formal&quot;</outflow>
+				<units>tonnes</units>
+			</stock>
+			<aux name="% of value recovered\nfor CE investments">
+				<doc>Scenario test parameter.
+Takes the value of 0.4 under Scenario 3 and 5</doc>
+				<eqn>0.2+STEP(0.0, 2024)</eqn>
+				<units>1/(Tonnes)</units>
+			</aux>
+			<aux name="Investing in CE">
+				<eqn>Annual_Value_Stream * &quot;%_of_value_recovered_for_CE_investments&quot;</eqn>
+				<units>Euros/(Tonnes*Years)</units>
+			</aux>
+			<aux name="Maximum growth rate g">
+				<eqn>0.2</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="Resource cost c">
+				<eqn>1000</eqn>
+				<units>Euros/tonnes</units>
+			</aux>
+			<aux name="Resource gain rate f">
+				<doc>Diminishing returns 
+equation 6 in Wibbens, P.D. 2021. The role of competitive amplification in explaining sustained performance heterogeneity. Strategic Management Journal 42(10), 1769 – 1792.
+
+Equation 12 in Wibbens, P.D. 2021. A formal framework for the RBV: Resource dynamics as a Markov process. Strategic Management Journal 44(6), 1562-1586</doc>
+				<eqn>Maximum_growth_rate_g*Investing_in_CE
+/(Resource_cost_c*Maximum_growth_rate_g+Investing_in_CE)</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="Collection coverage gap">
+				<eqn>(mixed_waste_generation 
+- (Informal_waste_collecting+Formal_waste_collecting))
+/MAX(1, mixed_waste_generation)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Waste collected (as\n% of mixed waste)">
+				<eqn>SAFEDIV((Informal_waste_collecting+Formal_waste_collecting)
+, mixed_waste_generation, 0)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Rate processed">
+				<eqn>&quot;Mixed_Material_recovering_-_formal&quot;*Time_Converter/Waste_inventory_of_formal_recyclers</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="On-site separated rate" isee:derived_units="true">
+				<eqn>MAX(0.05, Peer_Effect_Dynamics_for_a_Circular_Economy * &quot;%_of_population_that_separate_waste&quot;)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<stock name="Waste in dumsites">
+				<eqn>100</eqn>
+				<inflow>waste_discharging</inflow>
+				<units>Tonnes</units>
+			</stock>
+			<flow name="waste discharging">
+				<eqn>(&quot;%_of_waste_redirected_from_the_landfill&quot; * Waste_Inventory_return_to_landfill)+dumping_waste</eqn>
+				<units>Tonnes/year</units>
+			</flow>
+			<aux name="% of waste redirected from the landfill">
+				<eqn>0.1 +STEP(0.9, 2021)</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Other private sector recovery facilities">
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0" max="40000"/>
+					<ypts>23200,23200,23200,23400,23500,23500,23500,23500,23500,23800,24500,25000,25400,25600,25800,26400,26400,26500,26700,26900,27100,27100,27100,27100,27100,27300,27600,27400</ypts>
+				</gf>
+				<units>Tonnes/year</units>
+			</aux>
+			<aux name="Sensitivity to waste overflow">
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0.001" max="0.09"/>
+					<ypts>0.07184,0.06935,0.06686,0.06437,0.06348,0.06152,0.05974,0.05903,0.05689,0.05618,0.05511,0.0544,0.05369,0.05333,0.05262,0.05226,0.05155,0.05084,0.05013,0.04906,0.04835,0.04692,0.04657,0.04586,0.04479,0.04372,0.04265,0.0398</ypts>
+				</gf>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Increases in other\nrecovery capacities">
+				<eqn>DELAY1(
+Overflow_of_waste_in_landfill*Sensitivity_to_waste_overflow, 1)
+/year</eqn>
+				<units>tonnes/Years</units>
+			</aux>
+			<aux name="waste collected per year" isee:derived_units="true">
+				<eqn>Informal_waste_collecting + Formal_waste_collecting</eqn>
+				<units>tonnes/Years</units>
+			</aux>
+			<aux name="Informals contribution" isee:derived_units="true">
+				<eqn>Informal_waste_collecting / waste_collected_per_year</eqn>
+				<units>dmnl</units>
+			</aux>
+			<stock name="Waste in landfill (Nsumnia)">
+				<eqn>100</eqn>
+				<inflow>Waste_transferring_to_Nsumnia</inflow>
+				<units>tonnes</units>
+			</stock>
+			<flow name="Waste transferring to Nsumnia">
+				<eqn>Nsumnia_receiving_amount</eqn>
+				<units>tonnes/Years</units>
+			</flow>
+			<aux name="Nsumnia receiving amount" isee:derived_units="true">
+				<doc>The landfill site, was acquired in 2013 but operations began in August 2014. Occupying a space of 22,000 square metres with a depth of 25,000 metres, the site receives an average of 800 tonnes of municipal solid waste and domestic waste from Accra and Nsawam daily (292.000 tonnes per year).
+The landfill was decommissioned in 2018.
+GAMA portion=800*365 = 292.000 per year</doc>
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0" max="300000"/>
+					<ypts>0,0,2000,108000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</ypts>
+				</gf>
+				<units>tonnes/Years</units>
+			</aux>
+			<group name="Statistics" run="false">
+				<format precision="auto" scale_by="auto"/>
+				<entity name='"DATA:_Collection_coverage"'/>
+				<entity name='"DATA:_waste_in_landfill"'/>
+			</group>
+			<aux name="DATA: waste in landfill">
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0" max="2000000"/>
+					<ypts>0,520000,812500,1000000,1240493,1640493,1690000,1771493,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</ypts>
+				</gf>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="working capacity">
+				<doc>Based on experts inputs</doc>
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0" max="1"/>
+					<ypts>0.305,0.354,0.381,0.412,0.429,0.447,0.46,0.469,0.478,0.491,0.513,0.558,0.593,0.655,0.673,0.677,0.69,0.695,0.695,0.695,0.695,0.695,0.695,0.695,0.699,0.699,0.704,0.704</ypts>
+				</gf>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Working capacity of the recovery facilities">
+				<eqn>&quot;Processing_capacity_in_the_recovery_facilities_(ACARP_+_IRECOP)_per_year&quot; * working_capacity</eqn>
+				<units>tonnes/Years</units>
+			</aux>
+			<aux name="Formal contribution" isee:derived_units="true">
+				<eqn>Formal_waste_collecting / waste_collected_per_year</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Waste landfilled or dumped" isee:derived_units="true">
+				<eqn>dumping_waste + Waste_Inventory_return_to_landfill</eqn>
+				<units>tonnes/Years</units>
+			</aux>
+			<aux name="Material recovered by ACARP &amp; IRECOP" isee:derived_units="true">
+				<eqn>&quot;Mixed_Material_recovering_-_formal&quot; * &quot;%_of_material_recovered_per_tonne&quot;</eqn>
+				<units>tonnes/Years</units>
+			</aux>
+			<aux name="Daily material\nrecover by informals">
+				<eqn>(Material_recovery_by_informal_sector/365) * year</eqn>
+				<units>Tonnes</units>
+			</aux>
+			<aux name="formal collection rate" isee:derived_units="true">
+				<eqn>&quot;collection_of_recyclables_(formal)&quot; / &quot;Total_waste_(tonnes)_generated_per_year&quot;</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="DATA: Collection coverage">
+				<eqn>TIME</eqn>
+				<gf>
+					<xscale min="2013" max="2040"/>
+					<yscale min="0" max="100"/>
+					<ypts>0.65,0.67,0.67,0.68,0.69,0.7,0.71,0.72,0.73,0.74,0.77,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</ypts>
+				</gf>
+				<units>dmnl</units>
+			</aux>
+		</variables>
+		<views>
+			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+				<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<isee:loop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<numeric_display color="white" background="white" font_size="12pt" border_width="thin" border_style="solid" isee:transparent="false" isee:show_divider="true" isee:show_bounding_box="true" label_side="left"/>
+				<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false" axis_title_font_style="normal" axis_title_font_weight="normal" axis_title_text_decoration="none" axis_title_text_align="center" axis_title_vertical_text_align="center" axis_title_font_color="black" axis_title_font_family="Arial" axis_title_font_size="12pt" axis_title_text_padding="2" axis_title_text_border_color="black" axis_title_text_border_width="thin" axis_title_text_border_style="none" axis_label_font_style="normal" axis_label_font_weight="normal" axis_label_text_decoration="none" axis_label_text_align="center" axis_label_vertical_text_align="center" axis_label_font_color="black" axis_label_font_family="Arial" axis_label_font_size="9pt" axis_label_text_padding="2" axis_label_text_border_color="black" axis_label_text_border_width="thin" axis_label_text_border_style="none">
+					<isee:series_styles>
+						<isee:series_style color="blue" thickness="1"/>
+						<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF7F00" thickness="1"/>
+						<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF007F" thickness="1"/>
+						<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#C8C8C8" thickness="1"/>
+					</isee:series_styles>
+				</graph>
+				<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+				<button color="black" background="#E0E0E0" font_size="12pt" border_width="thin" border_style="solid" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" isee:highlight_on_hover="false" isee:highlight_color="#959595"/>
+				<isee:annotation color="black" background="#E0E0E0" font_size="12pt" border_width="thin" border_style="solid" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" isee:highlight_on_hover="false" isee:highlight_color="#959595" popup_corner_radius="0" popup_background_color="#FFFECF"/>
+				<slider color="#66CC66" background="#E0E0E0" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" vertical="false" isee:fancy_appearance="false" isee:show_hover_tip="when_deciding" input_expands="true" input_width="100"/>
+				<isee:stacked_container color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" padding="6 8" border_color="#999999" border_width="thin" border_style="solid" item_spacing="0" corner_radius="4" selected_item_color="black" selected_item_background="white" item_background="#DDDDDD" transparent_bg="false"/>
+				<isee:dual_slider color="#66CC66" background="silver" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" isee:show_hover_tip="when_deciding" input_expands="true" input_width="100"/>
+				<isee:sim_speed_slider color="black" background="white"/>
+				<isee:time_slider color="#E95F74" background="silver"/>
+				<isee:pie_input color="black" background="white" font_size="12pt" legend_position="bottom" isee:transparent="false"/>
+				<knob color="#66CC66" background="#E0E0E0" font_size="12pt" label_side="bottom" wrap_title="true"/>
+				<numeric_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<isee:dropdown_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<switch color="black" background="#E0E0E0" font_size="12pt" label_side="top" wrap_title="true" isee:appearance="switch" isee:on_color="green"/>
+				<options color="black" background="white" appearance="radio-buttons" arrangement="vertical"/>
+				<graphical_input color="black" background="#E0E0E0" font_size="12pt" isee:show_hover_tip="true"/>
+				<group_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<lamp color="black" background="white" font_size="9pt"/>
+				<gauge color="black" background="white" font_size="9pt" needle_color="#F09F72" bar_color="#EEEEEE" bar_progress_color="black" appearance="radial" num_major_ticks="11" num_minor_ticks="1" show_numeric_value="true"/>
+				<isee:spatial_map color="black" background="white" font_size="12pt"/>
+				<isee:animation_object color="black" background="white" font_size="12pt"/>
+				<isee:navigation_widget color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" padding="6 8" border_color="#999999" border_width="thin" border_style="solid" item_spacing="6" appearance="tabs" corner_radius="4" selected_item_color="black" selected_item_background="white" item_background="#DDDDDD" transparent_bg="false"/>
+				<isee:shape color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid" opacity="1" transparent_background="true" corner_radius="1"/>
+				<isee:selector color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
+				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+			</style>
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="794" isee:page_cols="5" isee:page_rows="7" isee:scroll_x="23" isee:scroll_y="2160" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="45" height="35"/>
+					</stock>
+					<flow color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</flow>
+					<isee:placeholder color="#228B22" background="white" font_color="#228B22" font_size="9pt" label_side="bottom"/>
+					<module color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="55" height="45"/>
+					</module>
+					<aux color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</aux>
+					<group color="red" background="white" font_color="red" font_size="9pt"/>
+					<connector color="#FF007F" background="white" font_color="#FF007F" font_size="9pt" isee:thickness="1"/>
+					<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<isee:loop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<numeric_display color="white" background="white" font_size="12pt" border_width="thin" border_style="solid" isee:transparent="false" isee:show_divider="true" isee:show_bounding_box="true" label_side="left"/>
+					<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false" axis_title_font_style="normal" axis_title_font_weight="normal" axis_title_text_decoration="none" axis_title_text_align="center" axis_title_vertical_text_align="center" axis_title_font_color="black" axis_title_font_family="Arial" axis_title_font_size="12pt" axis_title_text_padding="2" axis_title_text_border_color="black" axis_title_text_border_width="thin" axis_title_text_border_style="none" axis_label_font_style="normal" axis_label_font_weight="normal" axis_label_text_decoration="none" axis_label_text_align="center" axis_label_vertical_text_align="center" axis_label_font_color="black" axis_label_font_family="Arial" axis_label_font_size="9pt" axis_label_text_padding="2" axis_label_text_border_color="black" axis_label_text_border_width="thin" axis_label_text_border_style="none">
+						<isee:series_styles>
+							<isee:series_style color="blue" thickness="1"/>
+							<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#FF7F00" thickness="1"/>
+							<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#FF007F" thickness="1"/>
+							<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#C8C8C8" thickness="1"/>
+						</isee:series_styles>
+					</graph>
+					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+				</style>
+				<aux font_size="12pt" label_side="top" x="450.167" y="2422.17" name="waste generated\nper person per year"/>
+				<aux background="white" font_size="12pt" label_side="bottom" x="436.667" y="2457.17" width="27" height="27" name="Total waste (tonnes)\ngenerated per year"/>
+				<stock label_side="bottom" x="431.25" y="892.25" name="Age cohort 0-19"/>
+				<flow x="329.5" y="890.25" name="birth rate">
+					<pts>
+						<pt x="238.25" y="890.25"/>
+						<pt x="408.75" y="890.25"/>
+					</pts>
+				</flow>
+				<stock label_side="bottom" x="639.25" y="892.25" name="Age cohort 20-39"/>
+				<flow x="535.25" y="890.25" name="Maturing 0-19">
+					<pts>
+						<pt x="453.75" y="890.25"/>
+						<pt x="616.75" y="890.25"/>
+					</pts>
+				</flow>
+				<stock label_side="bottom" x="855.417" y="892.25" name="Age cohort 40-59"/>
+				<stock label_side="bottom" x="1062" y="893.25" name="Age cohort 60+"/>
+				<flow x="747.334" y="892.25" name="Maturing 20-39">
+					<pts>
+						<pt x="661.75" y="892.25"/>
+						<pt x="832.917" y="892.25"/>
+					</pts>
+				</flow>
+				<flow x="958.708" y="893.25" name="Maturing 40-59">
+					<pts>
+						<pt x="877.917" y="893.25"/>
+						<pt x="1039.5" y="893.25"/>
+					</pts>
+				</flow>
+				<flow x="1181.75" y="890" name="Maturing 60+">
+					<pts>
+						<pt x="1084.5" y="890"/>
+						<pt x="1291" y="890"/>
+					</pts>
+				</flow>
+				<stock x="405.75" y="697.75" width="74" height="48" name="Attribute population\nclass 0-19"/>
+				<flow label_side="top" x="341.25" y="721.75" name="increasing\nattribute">
+					<pts>
+						<pt x="264.75" y="721.75"/>
+						<pt x="405.75" y="721.75"/>
+					</pts>
+				</flow>
+				<flow label_side="top" x="543.625" y="721.75" name="decreasing\nattribute">
+					<pts>
+						<pt x="479.75" y="721.75"/>
+						<pt x="607.5" y="721.75"/>
+					</pts>
+				</flow>
+				<aux color="blue" background="white" x="265.917" y="754.75" name="Marginal attribute\nfor age cohort 0-19"/>
+				<aux label_side="left" x="459.282" y="801.75" name="average\nattribute 0-19"/>
+				<connector uid="108" angle="43.4862">
+					<from>&quot;average_attribute_0-19&quot;</from>
+					<to>decreasing_attribute</to>
+				</connector>
+				<connector uid="109" angle="23.6561">
+					<from>&quot;Marginal_attribute_for_age_cohort_0-19&quot;</from>
+					<to>increasing_attribute</to>
+				</connector>
+				<connector uid="110" angle="281.676">
+					<from>&quot;Attribute_population_class_0-19&quot;</from>
+					<to>&quot;average_attribute_0-19&quot;</to>
+				</connector>
+				<stock x="607.5" y="698.75" width="71" height="47" name="Attribute Population\nclass 20-39"/>
+				<aux x="696.75" y="801.75" name="average attribute 20-39"/>
+				<flow label_side="top" x="743" y="720.25" name="decreasing\nattribute 2">
+					<pts>
+						<pt x="678.5" y="720.25"/>
+						<pt x="807.5" y="720.25"/>
+					</pts>
+				</flow>
+				<connector uid="111" angle="60.4258">
+					<from>&quot;average_attribute_20-39&quot;</from>
+					<to>decreasing_attribute_2</to>
+				</connector>
+				<stock label_side="top" x="807.5" y="699.75" width="79" height="46" name="Attribute Population\nclass 40-59"/>
+				<stock label_side="top" x="1044.5" y="705.75" width="77" height="45" name="Attribute Population\nclass 60+"/>
+				<flow label_side="top" x="965.5" y="723.25" name="decreasing\nattribute 3">
+					<pts>
+						<pt x="886.5" y="723.25"/>
+						<pt x="1044.5" y="723.25"/>
+					</pts>
+				</flow>
+				<flow label_side="top" x="1196.25" y="728.25" name="decreasing\nattribute 4">
+					<pts>
+						<pt x="1121.5" y="728.25"/>
+						<pt x="1283" y="728.25"/>
+					</pts>
+				</flow>
+				<connector uid="113" angle="59.5002">
+					<from>&quot;Age_cohort_0-19&quot;</from>
+					<to>&quot;average_attribute_0-19&quot;</to>
+				</connector>
+				<connector uid="114" angle="87.1546">
+					<from>&quot;Maturing_0-19&quot;</from>
+					<to>decreasing_attribute</to>
+				</connector>
+				<connector uid="115" angle="86.0111">
+					<from>birth_rate</from>
+					<to>increasing_attribute</to>
+				</connector>
+				<connector uid="116" angle="57.5698">
+					<from>&quot;Age_cohort_20-39&quot;</from>
+					<to>&quot;average_attribute_20-39&quot;</to>
+				</connector>
+				<connector uid="117" angle="91.4434">
+					<from>&quot;Maturing_20-39&quot;</from>
+					<to>decreasing_attribute_2</to>
+				</connector>
+				<connector uid="118" angle="87.7123">
+					<from>&quot;Maturing_40-59&quot;</from>
+					<to>decreasing_attribute_3</to>
+				</connector>
+				<connector uid="119" angle="84.2894">
+					<from>&quot;Maturing_60+&quot;</from>
+					<to>decreasing_attribute_4</to>
+				</connector>
+				<aux x="886.917" y="806.875" name="average attribute 40-59"/>
+				<aux x="1089.5" y="806.875" name="average attribute 60+"/>
+				<connector uid="120" angle="288.869">
+					<from>&quot;Attribute_Population_class_40-59&quot;</from>
+					<to>&quot;average_attribute_40-59&quot;</to>
+				</connector>
+				<connector uid="121" angle="46.7804">
+					<from>&quot;average_attribute_40-59&quot;</from>
+					<to>decreasing_attribute_3</to>
+				</connector>
+				<connector uid="122" angle="63.7498">
+					<from>&quot;Age_cohort_60+&quot;</from>
+					<to>&quot;average_attribute_60+&quot;</to>
+				</connector>
+				<connector uid="123" angle="268.819">
+					<from>&quot;Attribute_Population_class_60+&quot;</from>
+					<to>&quot;average_attribute_60+&quot;</to>
+				</connector>
+				<connector uid="124" angle="36.3729">
+					<from>&quot;average_attribute_60+&quot;</from>
+					<to>decreasing_attribute_4</to>
+				</connector>
+				<connector uid="125" angle="56.9253">
+					<from>&quot;Age_cohort_40-59&quot;</from>
+					<to>&quot;average_attribute_40-59&quot;</to>
+				</connector>
+				<aux label_side="left" x="274.667" y="918.5" name="fractional birth rate"/>
+				<connector uid="126" angle="27.2576">
+					<from>fractional_birth_rate</from>
+					<to>birth_rate</to>
+				</connector>
+				<connector uid="127" angle="335.612">
+					<from>&quot;Age_cohort_0-19&quot;</from>
+					<to>&quot;Maturing_0-19&quot;</to>
+				</connector>
+				<connector uid="128" angle="337.905">
+					<from>&quot;Age_cohort_20-39&quot;</from>
+					<to>&quot;Maturing_20-39&quot;</to>
+				</connector>
+				<connector uid="129" angle="325.138">
+					<from>&quot;Age_cohort_40-59&quot;</from>
+					<to>&quot;Maturing_40-59&quot;</to>
+				</connector>
+				<connector uid="130" angle="339.336">
+					<from>&quot;Age_cohort_60+&quot;</from>
+					<to>&quot;Maturing_60+&quot;</to>
+				</connector>
+				<aux x="1120" y="975.375" name="death rate 60+"/>
+				<aux x="696.75" y="1159.75" name="Total population"/>
+				<connector uid="132" angle="314.785">
+					<from>&quot;Age_cohort_0-19&quot;</from>
+					<to>Total_population</to>
+				</connector>
+				<connector uid="133" angle="239.326">
+					<from>&quot;Age_cohort_40-59&quot;</from>
+					<to>Total_population</to>
+				</connector>
+				<connector uid="134" angle="234.477">
+					<from>&quot;Age_cohort_60+&quot;</from>
+					<to>Total_population</to>
+				</connector>
+				<connector uid="135" angle="183.485">
+					<from>Total_population</from>
+					<to>birth_rate</to>
+				</connector>
+				<flow x="425.25" y="973.5" name="death rates 0-19">
+					<pts>
+						<pt x="425.25" y="909.75"/>
+						<pt x="425.25" y="1046.25"/>
+					</pts>
+				</flow>
+				<flow x="643" y="978" name="death rates 20-39">
+					<pts>
+						<pt x="643" y="909.75"/>
+						<pt x="643" y="1055.25"/>
+					</pts>
+				</flow>
+				<flow x="855.417" y="972" name="death rates 40-59">
+					<pts>
+						<pt x="855.417" y="909.75"/>
+						<pt x="855.417" y="1043.25"/>
+					</pts>
+				</flow>
+				<connector uid="136" angle="256.237">
+					<from>&quot;Age_cohort_0-19&quot;</from>
+					<to>&quot;death_rates_0-19&quot;</to>
+				</connector>
+				<connector uid="137" angle="293.936">
+					<from>&quot;Age_cohort_20-39&quot;</from>
+					<to>&quot;death_rates_20-39&quot;</to>
+				</connector>
+				<connector uid="138" angle="282.131">
+					<from>&quot;Age_cohort_20-39&quot;</from>
+					<to>Total_population</to>
+				</connector>
+				<connector uid="139" angle="245.777">
+					<from>&quot;Age_cohort_40-59&quot;</from>
+					<to>&quot;death_rates_40-59&quot;</to>
+				</connector>
+				<stacked_container uid="140" x="712.5" y="13.58" width="402.834" height="295">
+					<graph width="402.834" height="295" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"Attribute_population_class_0-19"'/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"Attribute_Population_class_20-39"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name='"Attribute_Population_class_40-59"'/>
+						</plot>
+						<plot color="#008F44" pen_style="dashed" isee:keep_zero_visible="true" pen_width="1" index="3" show_y_axis="true">
+							<entity name='"Attribute_Population_class_60+"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux x="930.917" y="975.375" name="death rate 40-59"/>
+				<connector uid="142" angle="177.44">
+					<from>&quot;death_rate_40-59&quot;</from>
+					<to>&quot;death_rates_40-59&quot;</to>
+				</connector>
+				<aux x="723.25" y="977" name="death rate 20-39"/>
+				<connector uid="143" angle="180.714">
+					<from>&quot;death_rate_20-39&quot;</from>
+					<to>&quot;death_rates_20-39&quot;</to>
+				</connector>
+				<aux x="509.75" y="977" name="death rate 0-19"/>
+				<connector uid="144" angle="177.628">
+					<from>&quot;death_rate_0-19&quot;</from>
+					<to>&quot;death_rates_0-19&quot;</to>
+				</connector>
+				<aux x="948.917" y="936.5" name="Maturation time 40-59"/>
+				<connector uid="145" angle="77.2437">
+					<from>&quot;Maturation_time_40-59&quot;</from>
+					<to>&quot;Maturing_40-59&quot;</to>
+				</connector>
+				<aux x="743.25" y="939.75" name="Maturation time 20-39"/>
+				<connector uid="146" angle="85.0865">
+					<from>&quot;Maturation_time_20-39&quot;</from>
+					<to>&quot;Maturing_20-39&quot;</to>
+				</connector>
+				<aux x="535.25" y="936.5" name="Maturation time 0-19"/>
+				<connector uid="147" angle="90">
+					<from>&quot;Maturation_time_0-19&quot;</from>
+					<to>&quot;Maturing_0-19&quot;</to>
+				</connector>
+				<stacked_container uid="148" x="1144.83" y="17.16" width="391" height="287.84">
+					<graph width="391" height="287.84" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"average_attribute_0-19"'/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"average_attribute_20-39"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name='"average_attribute_40-59"'/>
+						</plot>
+						<plot color="#008F44" pen_style="dashed" isee:keep_zero_visible="true" pen_width="1" index="3" show_y_axis="true">
+							<entity name='"average_attribute_60+"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="149" x="1397.42" y="350.25" width="1293" height="250">
+					<table width="1293" height="250">
+						<item type="time"/>
+						<item>
+							<entity name='"average_attribute_20-39"'/>
+						</item>
+						<item>
+							<entity name='"average_attribute_40-59"'/>
+						</item>
+						<item>
+							<entity name='"Attribute_population_class_0-19"'/>
+						</item>
+						<item>
+							<entity name="Total_Weighted_Average_Attribute"/>
+						</item>
+						<item>
+							<entity name='"Age_cohort_0-19"'/>
+						</item>
+						<item>
+							<entity name='"Age_cohort_20-39"'/>
+						</item>
+						<item>
+							<entity name='"Age_cohort_40-59"'/>
+						</item>
+						<item>
+							<entity name='"Age_cohort_60+"'/>
+						</item>
+					</table>
+				</stacked_container>
+				<aux label_side="bottom" x="1321.42" y="1186.58" name="Total\nWeighted Average Attribute"/>
+				<connector uid="150" angle="271.641">
+					<from>
+						<alias uid="151"/>
+					</from>
+					<to>Total_Weighted_Average_Attribute</to>
+				</connector>
+				<connector uid="152" angle="241.574">
+					<from>
+						<alias uid="153"/>
+					</from>
+					<to>Total_Weighted_Average_Attribute</to>
+				</connector>
+				<connector uid="156" angle="201.456">
+					<from>
+						<alias uid="157"/>
+					</from>
+					<to>Total_Weighted_Average_Attribute</to>
+				</connector>
+				<aux x="191" y="2713.5" name="INITIAL VALUE\nSource-seperated waste 2013"/>
+				<aux x="194" y="2781" name="INITIAL VALUE Source-separated\nWaste Collected\nfor Recycling 2013"/>
+				<aux x="185" y="2858" name="INITIAL VALUE Source-separated\nwaste recycled 2013"/>
+				<aux label_side="top" x="96.3333" y="2980.67" name="INITIAL VALUE Mixed waste 2013"/>
+				<aux x="179.333" y="3037.17" name="INITIAL VALUE Uncollected waste 2013"/>
+				<aux x="179.333" y="3106.67" name="INITIAL VALUE Collected by informal - Mixed 2013"/>
+				<aux x="169.833" y="3171.7" name="INITIAL VALUE Collected by formal - Mixed 2013"/>
+				<aux x="172.833" y="3248.17" name="INITIAL VALUE Waste inventory of\nformal recyclers 2013"/>
+				<aux x="179.333" y="3452.91" name="INITIAL VALUE Value recovered 2013"/>
+				<aux x="182.333" y="3332.42" name="INITIAL VALUE Dumpsite 2013"/>
+				<aux x="182.333" y="3390.92" name="INITIAL VALUE\nWaste in landfill 2013"/>
+				<group locked="false" color="#55AA00" font_color="#55AA00" font_size="12pt" x="2387" y="3870.5" width="150" height="367" name="KPIs"/>
+				<aux x="2469.5" y="4176" name="% of waste recovered per year"/>
+				<aux x="2469.5" y="4046" name="Collection coverage for calibration"/>
+				<aux x="2469.5" y="3936" name="On-site separation rate"/>
+				<connector uid="213" angle="354.322">
+					<from>
+						<alias uid="214"/>
+					</from>
+					<to>&quot;On-site_separation_rate&quot;</to>
+				</connector>
+				<connector uid="154" angle="218.072">
+					<from>
+						<alias uid="155"/>
+					</from>
+					<to>Total_Weighted_Average_Attribute</to>
+				</connector>
+				<aux x="450.167" y="2547.5" name="Convert kg to Tonnes"/>
+				<connector uid="305" angle="90">
+					<from>Convert_kg_to_Tonnes</from>
+					<to>&quot;Total_waste_(tonnes)_generated_per_year&quot;</to>
+				</connector>
+				<stacked_container uid="370" x="368.417" y="22.75" width="330.833" height="241">
+					<graph width="330.833" height="241" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Delayed_impact"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="374" x="15.5" y="22.75" width="343" height="241">
+					<graph width="343" height="241" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Input"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux label_side="right" x="324.75" y="543.5" name="Input"/>
+				<aux x="303" y="632.625" name="Delayed impact"/>
+				<connector uid="387" angle="256.286">
+					<from>Input</from>
+					<to>Delayed_impact</to>
+				</connector>
+				<aux label_side="right" x="367.5" y="480.5" name="Magnitude"/>
+				<connector uid="388" angle="235.84">
+					<from>Magnitude</from>
+					<to>Input</to>
+				</connector>
+				<aux label_side="top" x="329.5" y="480.5" name="first pulse"/>
+				<connector uid="389" angle="265.688">
+					<from>first_pulse</from>
+					<to>Input</to>
+				</connector>
+				<aux label_side="left" x="283.917" y="480.5" name="interval"/>
+				<connector uid="390" angle="302.949">
+					<from>interval</from>
+					<to>Input</to>
+				</connector>
+				<aux background="aqua" label_side="left" x="212" y="597.5" name="delay (time effect) duration"/>
+				<aux label_side="left" x="208" y="639.5" name="initial value"/>
+				<connector uid="391" angle="338.894">
+					<from>&quot;delay_(time_effect)_duration&quot;</from>
+					<to>Delayed_impact</to>
+				</connector>
+				<connector uid="392" angle="4.13919">
+					<from>initial_value</from>
+					<to>Delayed_impact</to>
+				</connector>
+				<connector uid="393" angle="325.018">
+					<from>Delayed_impact</from>
+					<to>increasing_attribute</to>
+				</connector>
+				<stacked_container uid="396" x="1832.5" y="3909">
+					<graph width="350" height="250" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"On-site_separation_rate"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="397" x="1832.5" y="4171">
+					<graph width="350" height="250" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Collection_coverage_for_calibration"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="398" x="1661.5" y="4311.5" width="356" height="276">
+					<graph width="356" height="276" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"%_of_waste_recovered_per_year"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux x="84.25" y="3660.25" name="INITIAL Attribute Population\nclass 20-39"/>
+				<aux x="80.25" y="3602.25" name="INITIAL Attribute Population\nclass 0-19"/>
+				<aux x="80.25" y="3724.25" name="INITIAL Attribute Population\nclass 40-59"/>
+				<aux x="84.25" y="3791.25" name="INITIAL Attribute Population\nclass 60+"/>
+				<aux label_side="top" x="616.5" y="510.25" name="Constant effect of\nenvironmental campaigns #1"/>
+				<flow x="1059.5" y="976.625" name="death rates 60+">
+					<pts>
+						<pt x="1059.5" y="910.75"/>
+						<pt x="1059.5" y="1051.5"/>
+					</pts>
+				</flow>
+				<connector uid="410" angle="181.184">
+					<from>&quot;death_rate_60+&quot;</from>
+					<to>&quot;death_rates_60+&quot;</to>
+				</connector>
+				<connector uid="411" angle="251.942">
+					<from>&quot;Age_cohort_60+&quot;</from>
+					<to>&quot;death_rates_60+&quot;</to>
+				</connector>
+				<aux x="1174.25" y="946.583" name="Maturation time 60+"/>
+				<connector uid="412" angle="82.4495">
+					<from>&quot;Maturation_time_60+&quot;</from>
+					<to>&quot;Maturing_60+&quot;</to>
+				</connector>
+				<aux x="235" y="3785.92" width="20" height="20" name="INITIAL Age cohort 60+"/>
+				<aux x="253" y="3735.25" name="INITIAL Age cohort 40-59"/>
+				<aux x="253" y="3660.25" name="INITIAL Age cohort 20-39"/>
+				<aux x="249.25" y="3602.25" name="INITIAL Age cohort 0-19"/>
+				<connector uid="413" angle="153.564">
+					<from>&quot;INITIAL_Age_cohort_60+&quot;</from>
+					<to>&quot;INITIAL_Attribute_Population_class_60+&quot;</to>
+				</connector>
+				<connector uid="414" angle="134.78">
+					<from>&quot;INITIAL_Age_cohort_40-59&quot;</from>
+					<to>&quot;INITIAL_Attribute_Population_class_40-59&quot;</to>
+				</connector>
+				<connector uid="415" angle="149.744">
+					<from>&quot;INITIAL_Age_cohort_20-39&quot;</from>
+					<to>&quot;INITIAL_Attribute_Population_class_20-39&quot;</to>
+				</connector>
+				<connector uid="416" angle="152.879">
+					<from>&quot;INITIAL_Age_cohort_0-19&quot;</from>
+					<to>&quot;INITIAL_Attribute_Population_class_0-19&quot;</to>
+				</connector>
+				<connector uid="112" angle="284.973">
+					<from>&quot;Attribute_Population_class_20-39&quot;</from>
+					<to>&quot;average_attribute_20-39&quot;</to>
+				</connector>
+				<flow x="631.25" y="831.875" name="urbanisation rate">
+					<pts>
+						<pt x="631.25" y="780"/>
+						<pt x="631.25" y="874.75"/>
+					</pts>
+				</flow>
+				<aux label_side="top" x="576.667" y="833.875" name="Urbanisation rate cohort 20-39"/>
+				<connector uid="417" angle="2.09846">
+					<from>&quot;Urbanisation_rate_cohort_20-39&quot;</from>
+					<to>urbanisation_rate</to>
+				</connector>
+				<connector uid="418" angle="82.1086">
+					<from>&quot;Age_cohort_20-39&quot;</from>
+					<to>urbanisation_rate</to>
+				</connector>
+				<numeric_display uid="443" x="300.75" y="415.25" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<format scale_by="1"/>
+					<entity name="Magnitude"/>
+				</numeric_display>
+				<stacked_container uid="463" x="1670.25" y="988.25" width="460.25" height="328.125">
+					<graph width="460.25" height="328.125" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"Age_cohort_0-19"'/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"Age_cohort_20-39"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name='"Age_cohort_40-59"'/>
+						</plot>
+						<plot color="#008F44" pen_style="dashed" isee:keep_zero_visible="true" pen_width="1" index="3" show_y_axis="true">
+							<entity name='"Age_cohort_60+"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux label_side="top" x="810.5" y="505.5" name="Constant effect of\nenvironmental campaigns #2"/>
+				<aux label_side="top" x="1043.5" y="520.5" name="Constant effect of\nenvironmental campaigns #3"/>
+				<flow label_side="top" x="847" y="625.875" name="environmental\nknowledge increasing 3">
+					<pts>
+						<pt x="847" y="543"/>
+						<pt x="847" y="699.75"/>
+					</pts>
+				</flow>
+				<connector uid="471" angle="269.749">
+					<from>&quot;Constant_effect_of_environmental_campaigns_#2&quot;</from>
+					<to>environmental_knowledge_increasing_3</to>
+				</connector>
+				<flow label_side="top" x="649.25" y="626.875" name="environmental\nknowledge increasing 2">
+					<pts>
+						<pt x="649.25" y="546"/>
+						<pt x="649.25" y="698.75"/>
+					</pts>
+				</flow>
+				<connector uid="478" angle="264.656">
+					<from>&quot;Constant_effect_of_environmental_campaigns_#1&quot;</from>
+					<to>environmental_knowledge_increasing_2</to>
+				</connector>
+				<flow label_side="top" x="1086" y="623.875" name="environmental\nknowledge increasing 4">
+					<pts>
+						<pt x="1086" y="533"/>
+						<pt x="1086" y="705.75"/>
+					</pts>
+				</flow>
+				<connector uid="480" angle="281.806">
+					<from>&quot;Constant_effect_of_environmental_campaigns_#3&quot;</from>
+					<to>environmental_knowledge_increasing_4</to>
+				</connector>
+				<aux x="1258.17" y="1247.17" width="54.25" height="54.25" name="% of population with\nEnvironmental knowledge"/>
+				<stacked_container uid="484" x="1676.38" y="646" width="403.75" height="302.5">
+					<graph width="403.75" height="302.5" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"%_of_population_with_Environmental_knowledge"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux background="#AAFFFF" label_side="top" x="842.917" y="401.25" name="Boost of environmental\ncampaigns"/>
+				<connector uid="530" angle="179.18">
+					<from>Boost_of_environmental_campaigns</from>
+					<to>&quot;Constant_effect_of_environmental_campaigns_#1&quot;</to>
+				</connector>
+				<connector uid="531" angle="242.924">
+					<from>Boost_of_environmental_campaigns</from>
+					<to>&quot;Constant_effect_of_environmental_campaigns_#2&quot;</to>
+				</connector>
+				<connector uid="532" angle="357.961">
+					<from>Boost_of_environmental_campaigns</from>
+					<to>&quot;Constant_effect_of_environmental_campaigns_#3&quot;</to>
+				</connector>
+				<stacked_container uid="570" x="30.75" y="1478.58" width="612" height="340">
+					<graph width="612" height="340" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Total_population"/>
+						</plot>
+						<plot color="red" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name="Population_Data"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux x="307" y="2547.5" name="Data waste generation tonnes"/>
+				<connector uid="573" angle="356.592">
+					<from>Data_waste_generation_tonnes</from>
+					<to>&quot;Total_waste_(tonnes)_generated_per_year&quot;</to>
+				</connector>
+				<aux label_side="left" x="304" y="2470.67" name="Population Data"/>
+				<connector uid="578" angle="0">
+					<from>Population_Data</from>
+					<to>&quot;Total_waste_(tonnes)_generated_per_year&quot;</to>
+				</connector>
+				<connector uid="579" angle="270">
+					<from>waste_generated_per_person_per_year</from>
+					<to>&quot;Total_waste_(tonnes)_generated_per_year&quot;</to>
+				</connector>
+				<stacked_container uid="580" x="25" y="2046.88" width="350" height="252.41">
+					<graph width="350" height="252.41" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Data_waste_generation_tonnes"/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"Total_waste_(tonnes)_generated_per_year"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<numeric_display uid="601" x="112" y="2334" width="504.13" height="24" isee:include_units="true" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="waste_generated_per_person_per_year"/>
+				</numeric_display>
+				<numeric_display uid="602" x="43.5" y="2490.17" width="313" height="24" isee:include_units="true" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"On-site_separated_rate!"'/>
+				</numeric_display>
+				<numeric_display uid="603" x="40" y="2577" width="343" height="24" isee:include_units="true" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Data_waste_generation_tonnes"/>
+				</numeric_display>
+				<connector uid="605" angle="338.839">
+					<from>Total_population</from>
+					<to>Total_Weighted_Average_Attribute</to>
+				</connector>
+				<connector uid="606" angle="318.652">
+					<from>&quot;Age_cohort_0-19&quot;</from>
+					<to>Total_Weighted_Average_Attribute</to>
+				</connector>
+				<connector uid="607" angle="324.638">
+					<from>&quot;Age_cohort_20-39&quot;</from>
+					<to>Total_Weighted_Average_Attribute</to>
+				</connector>
+				<connector uid="608" angle="314.27">
+					<from>&quot;Age_cohort_40-59&quot;</from>
+					<to>Total_Weighted_Average_Attribute</to>
+				</connector>
+				<connector uid="609" angle="315">
+					<from>&quot;Age_cohort_60+&quot;</from>
+					<to>Total_Weighted_Average_Attribute</to>
+				</connector>
+				<connector uid="610" angle="247.616">
+					<from>Total_Weighted_Average_Attribute</from>
+					<to>&quot;%_of_population_with_Environmental_knowledge&quot;</to>
+				</connector>
+				<aux x="639" y="2448.67" width="67" height="67" name="On-site separated rate!"/>
+				<connector uid="630" angle="338.928">
+					<from>&quot;Total_waste_(tonnes)_generated_per_year&quot;</from>
+					<to>&quot;On-site_separated_rate!&quot;</to>
+				</connector>
+				<numeric_display uid="632" x="612.75" y="2417.17" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"On-site_separated_rate!"'/>
+				</numeric_display>
+				<aux x="230" y="688.75" name="year"/>
+				<connector uid="653" angle="50.3471">
+					<from>year</from>
+					<to>Delayed_impact</to>
+				</connector>
+				<connector uid="659" angle="57.5311">
+					<from>decreasing_attribute</from>
+					<to>environmental_knowledge_increasing_2</to>
+				</connector>
+				<connector uid="662" angle="66.9487">
+					<from>decreasing_attribute_2</from>
+					<to>environmental_knowledge_increasing_3</to>
+				</connector>
+				<connector uid="663" angle="71.1468">
+					<from>decreasing_attribute_3</from>
+					<to>environmental_knowledge_increasing_4</to>
+				</connector>
+				<flow background="white" font_size="12pt" label_side="bottom" x="1124.17" y="2480.17" name="on-site separation">
+					<pts>
+						<pt x="913.75" y="2480.17"/>
+						<pt x="1322.58" y="2480.17"/>
+					</pts>
+				</flow>
+				<stock background="white" font_size="12pt" label_side="bottom" x="1322.58" y="2455.67" width="89" height="53" name="Source-separated waste"/>
+				<stock background="white" font_size="12pt" label_side="bottom" x="1680.06" y="2457.17" width="97" height="52" name="Waste Collected for Recycling"/>
+				<flow font_size="12pt" x="1545.82" y="2482.17" name="collection of recyclables (formal)">
+					<pts>
+						<pt x="1411.58" y="2482.17"/>
+						<pt x="1680.06" y="2482.17"/>
+					</pts>
+				</flow>
+				<stock background="white" font_size="12pt" label_side="bottom" x="2007.75" y="2458.67" width="96" height="49" name="Recycled Material"/>
+				<flow font_size="12pt" x="1892.41" y="2480.92" name="Waste recycling">
+					<pts>
+						<pt x="1777.06" y="2480.92"/>
+						<pt x="2007.75" y="2480.92"/>
+					</pts>
+				</flow>
+				<connector uid="664" angle="18.2777">
+					<from>Waste_Collected_for_Recycling</from>
+					<to>Waste_recycling</to>
+				</connector>
+				<connector uid="665" angle="17.4497">
+					<from>&quot;Source-separated_waste&quot;</from>
+					<to>&quot;collection_of_recyclables_(formal)&quot;</to>
+				</connector>
+				<aux font_size="12pt" label_side="top" x="1151.5" y="2395.84" name="% of population that separate waste"/>
+				<aux font_size="12pt" label_side="top" x="1522.82" y="2381.17" name="Reference collection rate\nfor source-separated waste"/>
+				<connector uid="666" angle="312.996">
+					<from>&quot;Reference_collection_rate_for_source-separated_waste&quot;</from>
+					<to>&quot;collection_of_recyclables_(formal)&quot;</to>
+				</connector>
+				<flow x="1378.25" y="2396.92" name="dumping stage 1">
+					<pts>
+						<pt x="1378.25" y="2455.67"/>
+						<pt x="1378.25" y="2329.17"/>
+					</pts>
+				</flow>
+				<connector uid="667" angle="175.54">
+					<from>&quot;Reference_collection_rate_for_source-separated_waste&quot;</from>
+					<to>dumping_stage_1</to>
+				</connector>
+				<connector uid="668" angle="106.762">
+					<from>&quot;Source-separated_waste&quot;</from>
+					<to>dumping_stage_1</to>
+				</connector>
+				<flow x="1733.08" y="2399.17" name="dumping stage 2">
+					<pts>
+						<pt x="1733.08" y="2457.17"/>
+						<pt x="1733.08" y="2332.17"/>
+					</pts>
+				</flow>
+				<connector uid="669" angle="122.305">
+					<from>Waste_Collected_for_Recycling</from>
+					<to>dumping_stage_2</to>
+				</connector>
+				<aux label_side="left" x="1096.35" y="2273.34" name="% of people with Env\nKnowledge that separate waste"/>
+				<connector uid="670" angle="274.151">
+					<from>&quot;%_of_people_with_Env_Knowledge_that_separate_waste&quot;</from>
+					<to>&quot;%_of_population_that_separate_waste&quot;</to>
+				</connector>
+				<flow x="2217.25" y="2486.42" name="On-Site waste - Material\nRecovered">
+					<pts>
+						<pt x="2103.75" y="2486.42"/>
+						<pt x="2342.75" y="2486.42"/>
+					</pts>
+				</flow>
+				<connector uid="671" angle="321.123">
+					<from>Recycled_Material</from>
+					<to>&quot;On-Site_waste_-_Material_Recovered&quot;</to>
+				</connector>
+				<connector uid="672" angle="144.617">
+					<from>
+						<alias uid="673"/>
+					</from>
+					<to>&quot;On-Site_waste_-_Material_Recovered&quot;</to>
+				</connector>
+				<aux font_size="12pt" label_side="top" x="1878.75" y="2381.17" name="Reference recycling rate\nfor source-separated waste"/>
+				<connector uid="674" angle="162.136">
+					<from>&quot;Reference_recycling_rate_for_source-separated_waste&quot;</from>
+					<to>dumping_stage_2</to>
+				</connector>
+				<connector uid="675" angle="331.086">
+					<from>&quot;Reference_recycling_rate_for_source-separated_waste&quot;</from>
+					<to>Waste_recycling</to>
+				</connector>
+				<connector uid="677" angle="262.562">
+					<from>
+						<alias uid="678"/>
+					</from>
+					<to>&quot;%_of_population_that_separate_waste&quot;</to>
+				</connector>
+				<numeric_display uid="680" x="1027.92" y="2519.67" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"on-site_separation"'/>
+				</numeric_display>
+				<connector uid="681" angle="29.0205">
+					<from>&quot;Total_waste_(tonnes)_generated_per_year&quot;</from>
+					<to>&quot;on-site_separation&quot;</to>
+				</connector>
+				<numeric_display uid="682" x="1038.33" y="2320.17" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"%_of_population_that_separate_waste"'/>
+				</numeric_display>
+				<numeric_display uid="683" x="383" y="2590" width="230" height="36" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"Total_waste_(tonnes)_generated_per_year"'/>
+				</numeric_display>
+				<stock background="white" font_size="12pt" label_side="bottom" x="852.25" y="2730.5" width="72" height="49" name="Mixed waste"/>
+				<flow background="white" font_size="12pt" label_side="top" x="888.25" y="2645.25" name="mixed waste generation">
+					<pts>
+						<pt x="888.25" y="2551"/>
+						<pt x="888.25" y="2730.5"/>
+					</pts>
+				</flow>
+				<stock font_size="12pt" label_side="top" x="539.25" y="2738" width="71" height="42" name="Uncollected waste"/>
+				<flow font_size="12pt" label_side="top" x="731.25" y="2755" name="Uncollected waste flow">
+					<pts>
+						<pt x="852.25" y="2755"/>
+						<pt x="610.25" y="2755"/>
+					</pts>
+				</flow>
+				<connector uid="688" angle="206.977">
+					<from>Mixed_waste</from>
+					<to>Uncollected_waste_flow</to>
+				</connector>
+				<numeric_display uid="692" x="1189.13" y="2617" width="303" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Peer_Effect_Dynamics_for_a_Circular_Economy"/>
+				</numeric_display>
+				<numeric_display uid="695" x="759" y="2674.8" width="241" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="mixed_waste_generation"/>
+				</numeric_display>
+				<numeric_display uid="698" x="467.5" y="2688.8" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Uncollected_waste_flow"/>
+				</numeric_display>
+				<connector uid="699" angle="195.558">
+					<from>&quot;on-site_separation&quot;</from>
+					<to>&quot;On-site_separated_rate!&quot;</to>
+				</connector>
+				<connector uid="700" angle="320.024">
+					<from>&quot;Total_waste_(tonnes)_generated_per_year&quot;</from>
+					<to>mixed_waste_generation</to>
+				</connector>
+				<connector uid="701" angle="234.844">
+					<from>&quot;on-site_separation&quot;</from>
+					<to>mixed_waste_generation</to>
+				</connector>
+				<aux label_side="top" x="1152" y="2620.25" name="Peer Effect Dynamics\nfor a Circular Economy"/>
+				<aux label_side="bottom" x="1198" y="2664.8" name="Sensitivity to Waste Ubiquity"/>
+				<connector uid="702" angle="135.917">
+					<from>Sensitivity_to_Waste_Ubiquity</from>
+					<to>Peer_Effect_Dynamics_for_a_Circular_Economy</to>
+				</connector>
+				<connector uid="703" angle="29.8713">
+					<from>Mixed_waste</from>
+					<to>Peer_Effect_Dynamics_for_a_Circular_Economy</to>
+				</connector>
+				<connector uid="704" angle="224.744">
+					<from>&quot;Source-separated_waste&quot;</from>
+					<to>Peer_Effect_Dynamics_for_a_Circular_Economy</to>
+				</connector>
+				<stacked_container uid="706" x="475" y="3239.5">
+					<graph width="350" height="250" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Peer_Effect_Dynamics_for_a_Circular_Economy"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="710" x="214.5" y="2771.5">
+					<graph width="350" height="250" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"On-site_separated_rate!"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stock background="white" font_size="12pt" label_side="top" x="1313.46" y="3249.42" width="129.583" height="66.6667" name="Mixed Waste\ncollected by informal"/>
+				<flow label_side="top" x="1083.85" y="3263.25" width="22" height="22" name="Informal waste collecting">
+					<pts>
+						<pt x="888.25" y="2779.5"/>
+						<pt x="888.25" y="3274.25"/>
+						<pt x="1313.46" y="3274.25"/>
+					</pts>
+				</flow>
+				<flow x="567.5" y="2838.25" name="dumping waste">
+					<pts>
+						<pt x="567.5" y="2780"/>
+						<pt x="567.5" y="2896.5"/>
+					</pts>
+				</flow>
+				<stock label_side="left" x="540.25" y="2896.5" width="54" height="32" name="Dumped waste into\ndrainages or open spaces."/>
+				<aux x="498" y="2818.75" name="dumping rate"/>
+				<connector uid="711" angle="344.327">
+					<from>dumping_rate</from>
+					<to>dumping_waste</to>
+				</connector>
+				<connector uid="712" angle="231.423">
+					<from>Uncollected_waste</from>
+					<to>dumping_waste</to>
+				</connector>
+				<aux font_size="12pt" x="726.625" y="2854.75" name="uncollected waste rate"/>
+				<connector uid="713" angle="120.268">
+					<from>uncollected_waste_rate</from>
+					<to>Uncollected_waste_flow</to>
+				</connector>
+				<aux font_size="12pt" label_side="top" x="1078.35" y="2872.75" name="collection rate - formal"/>
+				<aux label_side="right" x="1205.63" y="2854.75" name="Reference collection\nrate formal"/>
+				<connector uid="717" angle="161.717">
+					<from>&quot;collection_rate_-_formal&quot;</from>
+					<to>uncollected_waste_rate</to>
+				</connector>
+				<connector uid="719" angle="178.55">
+					<from>Reference_collection_rate_formal</from>
+					<to>&quot;collection_rate_-_formal&quot;</to>
+				</connector>
+				<numeric_display uid="721" x="594.25" y="2816.75" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="uncollected_waste_rate"/>
+				</numeric_display>
+				<numeric_display uid="722" x="978.35" y="2886.75" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"collection_rate_-_formal"'/>
+				</numeric_display>
+				<numeric_display uid="724" x="1290" y="2680.5" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Mixed_Waste_Collected_by_formal"/>
+				</numeric_display>
+				<numeric_display uid="725" x="1267.25" y="3189" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Mixed_Waste_collected_by_informal"/>
+				</numeric_display>
+				<aux x="1086.85" y="3362" name="collection rate - informal"/>
+				<numeric_display uid="727" x="992" y="3313.08" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"collection_rate_-_informal"'/>
+				</numeric_display>
+				<connector uid="728" angle="84.7909">
+					<from>&quot;collection_rate_-_informal&quot;</from>
+					<to>Informal_waste_collecting</to>
+				</connector>
+				<connector uid="729" angle="291.697">
+					<from>Mixed_waste</from>
+					<to>Informal_waste_collecting</to>
+				</connector>
+				<connector uid="730" angle="60.0685">
+					<from>
+						<alias uid="731"/>
+					</from>
+					<to>uncollected_waste_rate</to>
+				</connector>
+				<numeric_display uid="732" x="1013" y="2704.5" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Formal_waste_collecting"/>
+				</numeric_display>
+				<flow x="1117.75" y="2755" name="Formal waste collecting">
+					<pts>
+						<pt x="924.25" y="2755"/>
+						<pt x="1311.25" y="2755"/>
+					</pts>
+				</flow>
+				<connector uid="734" angle="338.536">
+					<from>Mixed_waste</from>
+					<to>Formal_waste_collecting</to>
+				</connector>
+				<connector uid="735" angle="125.194">
+					<from>&quot;collection_rate_-_formal&quot;</from>
+					<to>Formal_waste_collecting</to>
+				</connector>
+				<connector uid="737" angle="303.374">
+					<from>INITIAL_VALUE_Mixed_waste_2013</from>
+					<to>&quot;INITIAL_VALUE_Collected_by_informal_-_Mixed_2013&quot;</to>
+				</connector>
+				<connector uid="738" angle="291.044">
+					<from>INITIAL_VALUE_Mixed_waste_2013</from>
+					<to>&quot;INITIAL_VALUE_Collected_by_formal_-_Mixed_2013&quot;</to>
+				</connector>
+				<aux x="1216" y="2960" name="collection gap to cover"/>
+				<connector uid="740" angle="339.222">
+					<from>&quot;collection_rate_-_formal&quot;</from>
+					<to>collection_gap_to_cover</to>
+				</connector>
+				<numeric_display uid="741" x="1199.5" y="2913.5" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="collection_gap_to_cover"/>
+				</numeric_display>
+				<aux x="1133.38" y="3443" name="Informal collection increases due to collection GAP"/>
+				<connector uid="745" angle="14.9314">
+					<from>
+						<alias uid="742"/>
+					</from>
+					<to>Informal_collection_increases_due_to_collection_GAP</to>
+				</connector>
+				<aux background="#AAFFFF" x="1019" y="3539" name="Informal collectors sensitivity to\nthe collection gap"/>
+				<connector uid="746" angle="57.9946">
+					<from>Informal_collectors_sensitivity_to_the_collection_gap</from>
+					<to>Informal_collection_increases_due_to_collection_GAP</to>
+				</connector>
+				<numeric_display uid="747" x="1045" y="3492" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Informal_collection_increases_due_to_collection_GAP"/>
+				</numeric_display>
+				<connector uid="748" angle="72.8793">
+					<from>Informal_collection_increases_due_to_collection_GAP</from>
+					<to>&quot;collection_rate_-_informal&quot;</to>
+				</connector>
+				<flow x="1378.25" y="3392.04" name="Material recovery\nby informal sector">
+					<pts>
+						<pt x="1378.25" y="3316.09"/>
+						<pt x="1378.25" y="3477"/>
+					</pts>
+				</flow>
+				<aux font_size="12pt" label_side="right" x="1427.94" y="3401.74" name="waste recovery rate\nof informal sector"/>
+				<connector uid="750" angle="291.77">
+					<from>Mixed_Waste_collected_by_informal</from>
+					<to>Material_recovery_by_informal_sector</to>
+				</connector>
+				<connector uid="751" angle="149.368">
+					<from>waste_recovery_rate_of_informal_sector</from>
+					<to>Material_recovery_by_informal_sector</to>
+				</connector>
+				<stock background="white" font_size="12pt" label_side="bottom" x="1848.5" y="2937.5" width="96.5" height="99.5" name="Waste inventory of\nformal recyclers"/>
+				<flow x="1674.75" y="2755" name="waste transferring - formal">
+					<pts>
+						<pt x="1445.25" y="2755"/>
+						<pt x="1892.25" y="2755"/>
+						<pt x="1892.25" y="2937.5"/>
+					</pts>
+				</flow>
+				<flow x="1673.65" y="3278.75" name="waste transferring - informal">
+					<pts>
+						<pt x="1443.04" y="3278.75"/>
+						<pt x="1892.25" y="3278.75"/>
+						<pt x="1892.25" y="3037"/>
+					</pts>
+				</flow>
+				<flow label_side="top" x="2087" y="2982.25" name="Mixed Material\nrecovering - formal">
+					<pts>
+						<pt x="1945" y="2982.25"/>
+						<pt x="2241" y="2982.25"/>
+					</pts>
+				</flow>
+				<flow x="2115.69" y="3018" name="Waste Inventory\nreturn to landfill">
+					<pts>
+						<pt x="1945" y="3018"/>
+						<pt x="2286.38" y="3018"/>
+					</pts>
+				</flow>
+				<aux font_size="12pt" label_side="right" x="2266.88" y="3092.5" name="Decomposition rate"/>
+				<flow x="2360" y="3124.32" name="Decomposition">
+					<pts>
+						<pt x="2360" y="3041.63"/>
+						<pt x="2360" y="3216"/>
+					</pts>
+				</flow>
+				<connector uid="753" angle="318.255">
+					<from>Decomposition_rate</from>
+					<to>Decomposition</to>
+				</connector>
+				<aux font_size="12pt" label_side="right" label_angle="45" x="2462.56" y="3201" name="Data: Design landfill capacity"/>
+				<aux font_size="12pt" label_side="right" x="2563.88" y="3156.5" name="Overflow of waste in landfill"/>
+				<connector uid="754" angle="39.415">
+					<from>&quot;Data:_Design_landfill_capacity&quot;</from>
+					<to>Overflow_of_waste_in_landfill</to>
+				</connector>
+				<aux background="white" label_side="left" x="1906.33" y="2673.21" name="Processing capacity in the recovery facilities\n(ACARP + IRECOP) per year"/>
+				<aux background="#AAFFFF" label_side="top" x="2043.94" y="2639.21" width="25" height="25" name="Increases in formal\nrecovery capacity"/>
+				<aux background="white" font_size="12pt" x="2163" y="2831.5" name="Recovery capacity\nof mixed waste"/>
+				<connector uid="757" angle="300.655">
+					<from>Increases_in_formal_recovery_capacity</from>
+					<to>Recovery_capacity_of_mixed_waste</to>
+				</connector>
+				<connector uid="759" angle="222.519">
+					<from>Recovery_capacity_of_mixed_waste</from>
+					<to>&quot;Mixed_Material_recovering_-_formal&quot;</to>
+				</connector>
+				<connector uid="760" angle="30.6571">
+					<from>Waste_inventory_of_formal_recyclers</from>
+					<to>&quot;Mixed_Material_recovering_-_formal&quot;</to>
+				</connector>
+				<aux label_side="right" x="2033.33" y="2891.06" name="Time Converter"/>
+				<connector uid="761" angle="318.972">
+					<from>Time_Converter</from>
+					<to>&quot;Mixed_Material_recovering_-_formal&quot;</to>
+				</connector>
+				<stacked_container uid="762" x="2639.92" y="2110">
+					<graph width="350" height="250" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Recovery_capacity_of_mixed_waste"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux label_side="bottom" x="2491.5" y="2788.25" name="Value recovered by formal collectors"/>
+				<aux label_side="left" x="2368" y="2792.25" name="% of material\nrecovered per tonne"/>
+				<connector uid="766" angle="1.85509">
+					<from>&quot;%_of_material_recovered_per_tonne&quot;</from>
+					<to>Value_recovered_by_formal_collectors</to>
+				</connector>
+				<aux x="2404" y="2859" name="Economic value per tonne\nof material recovered"/>
+				<connector uid="767" angle="26.4413">
+					<from>Economic_value_per_tonne_of_material_recovered</from>
+					<to>Value_recovered_by_formal_collectors</to>
+				</connector>
+				<stock x="2680" y="2818" width="108" height="58" name="Value recovered"/>
+				<flow x="2602.25" y="2847" name="value recovering">
+					<pts>
+						<pt x="2512.5" y="2847"/>
+						<pt x="2680" y="2847"/>
+					</pts>
+				</flow>
+				<connector uid="768" angle="332.055">
+					<from>Value_recovered_by_formal_collectors</from>
+					<to>value_recovering</to>
+				</connector>
+				<flow x="2902.75" y="2852.5" name="Annual Value Stream">
+					<pts>
+						<pt x="2788" y="2852.5"/>
+						<pt x="3029.5" y="2852.5"/>
+					</pts>
+				</flow>
+				<connector uid="769" angle="326.052">
+					<from>Value_recovered</from>
+					<to>Annual_Value_Stream</to>
+				</connector>
+				<connector uid="772" angle="25.6226">
+					<from>&quot;Mixed_Material_recovering_-_formal&quot;</from>
+					<to>Value_recovered_by_formal_collectors</to>
+				</connector>
+				<connector uid="773" angle="308.985">
+					<from>&quot;On-Site_waste_-_Material_Recovered&quot;</from>
+					<to>Value_recovered_by_formal_collectors</to>
+				</connector>
+				<aux background="#FF5500" x="2648.88" y="2601.67" name="Quality\nof waste material index"/>
+				<numeric_display uid="779" x="2921.25" y="2657.21" width="376.5" height="24" isee:include_units="true" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Annual_Value_Stream"/>
+				</numeric_display>
+				<numeric_display uid="780" x="2933.5" y="2568.67" width="258.75" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Quality_of_waste_material_index"/>
+				</numeric_display>
+				<numeric_display uid="783" x="2433" y="2574.92" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Quality_of_waste_material_index"/>
+				</numeric_display>
+				<aux x="1987" y="3128.75" name="rate remaining to landfill"/>
+				<aux x="1716" y="2987.25" name="waste receiving"/>
+				<connector uid="785" angle="291.533">
+					<from>&quot;waste_transferring_-_formal&quot;</from>
+					<to>waste_receiving</to>
+				</connector>
+				<connector uid="786" angle="63.7751">
+					<from>&quot;waste_transferring_-_informal&quot;</from>
+					<to>waste_receiving</to>
+				</connector>
+				<connector uid="787" angle="90.793">
+					<from>
+						<alias uid="788"/>
+					</from>
+					<to>rate_remaining_to_landfill</to>
+				</connector>
+				<numeric_display uid="791" x="1881.42" y="3087" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="rate_remaining_to_landfill"/>
+				</numeric_display>
+				<connector uid="794" angle="333.425">
+					<from>Waste_inventory_of_formal_recyclers</from>
+					<to>Waste_Inventory_return_to_landfill</to>
+				</connector>
+				<stock x="2286.38" y="2978.38" width="147.25" height="63.25" name="Waste in landfill (Kpone)"/>
+				<connector uid="795" angle="324.3">
+					<from>&quot;Waste_in_landfill_(Kpone)&quot;</from>
+					<to>Overflow_of_waste_in_landfill</to>
+				</connector>
+				<stacked_container uid="796" x="2543" y="3357.75" width="456" height="358">
+					<graph width="456" height="358" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Overflow_of_waste_in_landfill"/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"Waste_in_landfill_(Kpone)"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name='"Data:_Design_landfill_capacity"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<connector uid="797" angle="259.618">
+					<from>&quot;Waste_in_landfill_(Kpone)&quot;</from>
+					<to>Decomposition</to>
+				</connector>
+				<aux font_size="12pt" label_side="left" label_angle="225" x="2291.56" y="3169.71" name="Informal recovery rate from landfill"/>
+				<connector uid="798" angle="33.5556">
+					<from>Informal_recovery_rate_from_landfill</from>
+					<to>Decomposition</to>
+				</connector>
+				<aux label_side="top" x="1675.88" y="2692.5" name="waste transferring\n- formal rate"/>
+				<connector uid="799" angle="268.964">
+					<from>&quot;waste_transferring_-_formal_rate&quot;</from>
+					<to>&quot;waste_transferring_-_formal&quot;</to>
+				</connector>
+				<aux label_side="right" x="1681.88" y="3362" name="waste transferring\n- informal rate"/>
+				<connector uid="801" angle="80.0647">
+					<from>&quot;waste_transferring_-_informal_rate&quot;</from>
+					<to>&quot;waste_transferring_-_informal&quot;</to>
+				</connector>
+				<connector uid="802" angle="342.752">
+					<from>Mixed_Waste_collected_by_informal</from>
+					<to>&quot;waste_transferring_-_informal&quot;</to>
+				</connector>
+				<numeric_display uid="803" x="999.5" y="3195" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Informal_waste_collecting"/>
+				</numeric_display>
+				<numeric_display uid="804" x="1556.77" y="3231.25" width="233.75" height="32" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"waste_transferring_-_informal"'/>
+				</numeric_display>
+				<numeric_display uid="805" x="1558.88" y="2792.75" width="229.542" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"waste_transferring_-_formal"'/>
+				</numeric_display>
+				<connector uid="736" angle="335.847">
+					<from>INITIAL_VALUE_Mixed_waste_2013</from>
+					<to>INITIAL_VALUE_Uncollected_waste_2013</to>
+				</connector>
+				<numeric_display uid="806" x="1585.75" y="2937.5" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="waste_receiving"/>
+				</numeric_display>
+				<numeric_display uid="807" x="206.333" y="2995.67" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"INITIAL_VALUE_Collected_by_informal_-_Mixed_2013"'/>
+				</numeric_display>
+				<stock x="1311.25" y="2722.5" width="134" height="65" name="Mixed Waste Collected by formal"/>
+				<connector uid="808" angle="17.9238">
+					<from>Mixed_Waste_Collected_by_formal</from>
+					<to>&quot;waste_transferring_-_formal&quot;</to>
+				</connector>
+				<numeric_display uid="810" x="2382" y="3213" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"Data:_Design_landfill_capacity"'/>
+				</numeric_display>
+				<numeric_display uid="811" x="1921.44" y="2819.5" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Recovery_capacity_of_mixed_waste"/>
+				</numeric_display>
+				<numeric_display uid="812" x="2124.69" y="2931" width="220" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"Mixed_Material_recovering_-_formal"'/>
+				</numeric_display>
+				<numeric_display uid="813" x="1778" y="2630.75" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"Processing_capacity_in_the_recovery_facilities_(ACARP_+_IRECOP)_per_year"'/>
+				</numeric_display>
+				<numeric_display uid="814" x="2081.42" y="3056.5" width="251.75" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Waste_Inventory_return_to_landfill"/>
+				</numeric_display>
+				<numeric_display uid="818" x="2446" y="2985" width="229" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"Waste_in_landfill_(Kpone)"'/>
+				</numeric_display>
+				<numeric_display uid="819" x="1629" y="3042.5" width="211" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"Processing_capacity_in_the_recovery_facilities_(ACARP_+_IRECOP)_per_year"'/>
+				</numeric_display>
+				<connector uid="820" angle="348.737">
+					<from>&quot;INITIAL_VALUE_Collected_by_informal_-_Mixed_2013&quot;</from>
+					<to>INITIAL_VALUE_Waste_inventory_of_formal_recyclers_2013</to>
+				</connector>
+				<connector uid="821" angle="297.568">
+					<from>&quot;INITIAL_VALUE_Collected_by_formal_-_Mixed_2013&quot;</from>
+					<to>INITIAL_VALUE_Waste_inventory_of_formal_recyclers_2013</to>
+				</connector>
+				<aux background="#AAFFFF" x="835" y="3124.67" name="% of value recovered\nfor CE investments"/>
+				<aux x="777" y="3066.5" name="Investing in CE"/>
+				<connector uid="824" angle="82.1709">
+					<from>
+						<alias uid="825"/>
+					</from>
+					<to>Investing_in_CE</to>
+				</connector>
+				<connector uid="826" angle="107.101">
+					<from>&quot;%_of_value_recovered_for_CE_investments&quot;</from>
+					<to>Investing_in_CE</to>
+				</connector>
+				<numeric_display uid="827" x="543" y="3062.5" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Investing_in_CE"/>
+				</numeric_display>
+				<aux x="835" y="3034.5" name="Maximum growth rate g"/>
+				<aux label_side="left" x="726.625" y="3033.5" name="Resource cost c"/>
+				<aux x="762.25" y="2973.46" width="20" height="20" name="Resource gain rate f"/>
+				<connector uid="828" angle="93.2738">
+					<from>Investing_in_CE</from>
+					<to>Resource_gain_rate_f</to>
+				</connector>
+				<connector uid="829" angle="58.6917">
+					<from>Resource_cost_c</from>
+					<to>Resource_gain_rate_f</to>
+				</connector>
+				<connector uid="830" angle="114.261">
+					<from>Maximum_growth_rate_g</from>
+					<to>Resource_gain_rate_f</to>
+				</connector>
+				<numeric_display uid="831" x="548" y="2969" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Resource_gain_rate_f"/>
+				</numeric_display>
+				<connector uid="832" angle="34.4424">
+					<from>Resource_gain_rate_f</from>
+					<to>&quot;collection_rate_-_formal&quot;</to>
+				</connector>
+				<connector uid="833" angle="93.8785">
+					<from>
+						<alias uid="715"/>
+					</from>
+					<to>&quot;collection_rate_-_formal&quot;</to>
+				</connector>
+				<aux x="956" y="3870.5" name="Collection coverage gap"/>
+				<connector uid="837" angle="207.636">
+					<from>
+						<alias uid="838"/>
+					</from>
+					<to>Collection_coverage_gap</to>
+				</connector>
+				<connector uid="839" angle="185.161">
+					<from>
+						<alias uid="840"/>
+					</from>
+					<to>Collection_coverage_gap</to>
+				</connector>
+				<connector uid="835" angle="292.093">
+					<from>
+						<alias uid="836"/>
+					</from>
+					<to>Collection_coverage_gap</to>
+				</connector>
+				<stacked_container uid="842" x="327" y="3393.5" width="328" height="322">
+					<graph width="328" height="322" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Collection_coverage_gap"/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"collection_rate_-_informal"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name='"collection_rate_-_formal"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux background="white" x="938" y="4029.17" name="Waste collected (as\n% of mixed waste)"/>
+				<connector uid="844" angle="267.171">
+					<from>
+						<alias uid="840"/>
+					</from>
+					<to>&quot;Waste_collected_(as_%_of_mixed_waste)&quot;</to>
+				</connector>
+				<connector uid="845" angle="240.095">
+					<from>
+						<alias uid="836"/>
+					</from>
+					<to>&quot;Waste_collected_(as_%_of_mixed_waste)&quot;</to>
+				</connector>
+				<connector uid="846" angle="276.277">
+					<from>
+						<alias uid="838"/>
+					</from>
+					<to>&quot;Waste_collected_(as_%_of_mixed_waste)&quot;</to>
+				</connector>
+				<stacked_container uid="847" x="551.167" y="3886.17">
+					<graph width="350" height="250" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"Waste_collected_(as_%_of_mixed_waste)"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux x="1946" y="2891.06" name="Rate processed"/>
+				<connector uid="848" angle="129.046">
+					<from>&quot;Mixed_Material_recovering_-_formal&quot;</from>
+					<to>Rate_processed</to>
+				</connector>
+				<connector uid="849" angle="61.6691">
+					<from>Waste_inventory_of_formal_recyclers</from>
+					<to>Rate_processed</to>
+				</connector>
+				<connector uid="852" angle="358.391">
+					<from>
+						<alias uid="851"/>
+					</from>
+					<to>&quot;On-site_separation_rate&quot;</to>
+				</connector>
+				<aux x="1216" y="2439.67" name="On-site separated rate"/>
+				<connector uid="853" angle="343.197">
+					<from>&quot;%_of_population_that_separate_waste&quot;</from>
+					<to>&quot;On-site_separated_rate&quot;</to>
+				</connector>
+				<connector uid="854" angle="70.485">
+					<from>Peer_Effect_Dynamics_for_a_Circular_Economy</from>
+					<to>&quot;On-site_separated_rate&quot;</to>
+				</connector>
+				<connector uid="856" angle="181.088">
+					<from>&quot;On-site_separated_rate&quot;</from>
+					<to>&quot;on-site_separation&quot;</to>
+				</connector>
+				<connector uid="862" angle="17.6973">
+					<from>
+						<alias uid="861"/>
+					</from>
+					<to>Waste_Inventory_return_to_landfill</to>
+				</connector>
+				<connector uid="817" angle="303.923">
+					<from>Waste_inventory_of_formal_recyclers</from>
+					<to>rate_remaining_to_landfill</to>
+				</connector>
+				<connector uid="863" angle="123.007">
+					<from>
+						<alias uid="864"/>
+					</from>
+					<to>rate_remaining_to_landfill</to>
+				</connector>
+				<connector uid="865" angle="156.982">
+					<from>Time_Converter</from>
+					<to>Rate_processed</to>
+				</connector>
+				<stacked_container uid="866" x="2011" y="3425.24" width="376" height="268.75">
+					<graph width="376" height="268.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Waste_inventory_of_formal_recyclers"/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"Mixed_Material_recovering_-_formal"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name="Recovery_capacity_of_mixed_waste"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stock x="3002.5" y="3125.71" width="118.75" height="62.5" name="Waste in dumsites"/>
+				<flow x="2939.25" y="3156.96" name="waste discharging">
+					<pts>
+						<pt x="2864" y="3156.96"/>
+						<pt x="3002.5" y="3156.96"/>
+					</pts>
+				</flow>
+				<aux x="2878" y="3055.5" name="% of waste redirected from the landfill"/>
+				<connector uid="869" angle="301.119">
+					<from>&quot;%_of_waste_redirected_from_the_landfill&quot;</from>
+					<to>waste_discharging</to>
+				</connector>
+				<stacked_container uid="870" x="3157" y="3026" width="412" height="244">
+					<graph width="412" height="244" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Waste_landfilled_or_dumped"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<connector uid="872" angle="253.644">
+					<from>
+						<alias uid="873"/>
+					</from>
+					<to>waste_discharging</to>
+				</connector>
+				<connector uid="874" angle="8.82198">
+					<from>
+						<alias uid="875"/>
+					</from>
+					<to>waste_discharging</to>
+				</connector>
+				<stacked_container uid="876" x="1297" y="3521" width="694" height="250">
+					<table width="694" height="250">
+						<item type="time"/>
+						<item>
+							<entity name='"Mixed_Material_recovering_-_formal"'/>
+						</item>
+						<item>
+							<entity name="Recovery_capacity_of_mixed_waste"/>
+						</item>
+						<item>
+							<entity name="Rate_processed"/>
+						</item>
+						<item>
+							<entity name="Daily_material_recover_by_informals"/>
+						</item>
+					</table>
+				</stacked_container>
+				<numeric_display uid="877" x="2563.5" y="4000" width="271" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Collection_coverage_gap"/>
+				</numeric_display>
+				<connector uid="881" angle="343.496">
+					<from>
+						<alias uid="214"/>
+					</from>
+					<to>Collection_coverage_for_calibration</to>
+				</connector>
+				<connector uid="882" angle="348.061">
+					<from>
+						<alias uid="878"/>
+					</from>
+					<to>Collection_coverage_for_calibration</to>
+				</connector>
+				<connector uid="883" angle="1.57205">
+					<from>
+						<alias uid="879"/>
+					</from>
+					<to>Collection_coverage_for_calibration</to>
+				</connector>
+				<connector uid="884" angle="0.406374">
+					<from>
+						<alias uid="880"/>
+					</from>
+					<to>Collection_coverage_for_calibration</to>
+				</connector>
+				<connector uid="885" angle="327.171">
+					<from>
+						<alias uid="214"/>
+					</from>
+					<to>&quot;%_of_waste_recovered_per_year&quot;</to>
+				</connector>
+				<connector uid="887" angle="14.3144">
+					<from>
+						<alias uid="886"/>
+					</from>
+					<to>&quot;%_of_waste_recovered_per_year&quot;</to>
+				</connector>
+				<connector uid="890" angle="27.4076">
+					<from>
+						<alias uid="891"/>
+					</from>
+					<to>&quot;%_of_waste_recovered_per_year&quot;</to>
+				</connector>
+				<numeric_display uid="892" x="1399.5" y="3431" width="261" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Material_recovery_by_informal_sector"/>
+				</numeric_display>
+				<numeric_display uid="893" x="1152" y="2816.75" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Reference_collection_rate_formal"/>
+				</numeric_display>
+				<connector uid="895" angle="120.616">
+					<from>
+						<alias uid="765"/>
+					</from>
+					<to>Annual_Value_Stream</to>
+				</connector>
+				<aux label_side="top" x="2163" y="2733" name="Other private sector recovery facilities"/>
+				<connector uid="896" angle="257.515">
+					<from>Other_private_sector_recovery_facilities</from>
+					<to>Recovery_capacity_of_mixed_waste</to>
+				</connector>
+				<stacked_container uid="897" x="3273" y="2363">
+					<graph width="350" height="250" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Quality_of_waste_material_index"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux x="2354.51" y="2715" name="Sensitivity to waste overflow"/>
+				<aux x="2266.88" y="2733" name="Increases in other\nrecovery capacities"/>
+				<connector uid="899" angle="240.025">
+					<from>
+						<alias uid="898"/>
+					</from>
+					<to>Increases_in_other_recovery_capacities</to>
+				</connector>
+				<connector uid="900" angle="191.608">
+					<from>Sensitivity_to_waste_overflow</from>
+					<to>Increases_in_other_recovery_capacities</to>
+				</connector>
+				<connector uid="902" angle="213.786">
+					<from>Increases_in_other_recovery_capacities</from>
+					<to>Recovery_capacity_of_mixed_waste</to>
+				</connector>
+				<aux label_side="top" x="1175.17" y="3789" name="waste collected per year"/>
+				<connector uid="903" angle="345.004">
+					<from>
+						<alias uid="838"/>
+					</from>
+					<to>waste_collected_per_year</to>
+				</connector>
+				<connector uid="904" angle="16.6901">
+					<from>
+						<alias uid="840"/>
+					</from>
+					<to>waste_collected_per_year</to>
+				</connector>
+				<connector uid="905" angle="279.302">
+					<from>
+						<alias uid="906"/>
+					</from>
+					<to>Increases_in_other_recovery_capacities</to>
+				</connector>
+				<aux x="1209.17" y="3687.83" name="Informals contribution"/>
+				<connector uid="907" angle="84.0931">
+					<from>waste_collected_per_year</from>
+					<to>Informals_contribution</to>
+				</connector>
+				<connector uid="908" angle="62.9157">
+					<from>
+						<alias uid="838"/>
+					</from>
+					<to>Informals_contribution</to>
+				</connector>
+				<stacked_container uid="909" x="1411.27" y="3942.83">
+					<graph width="350" height="250" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Informals_contribution"/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name="Formal_contribution"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stock x="2318.83" y="3297.5" width="98.3333" height="65" name="Waste in landfill (Nsumnia)"/>
+				<flow x="2114.33" y="3325" name="Waste transferring to Nsumnia">
+					<pts>
+						<pt x="1921.83" y="3037"/>
+						<pt x="1921.83" y="3325"/>
+						<pt x="2318.83" y="3325"/>
+					</pts>
+				</flow>
+				<aux x="2111" y="3267.5" name="Nsumnia receiving amount"/>
+				<connector uid="911" angle="273.314">
+					<from>Nsumnia_receiving_amount</from>
+					<to>Waste_transferring_to_Nsumnia</to>
+				</connector>
+				<group locked="false" color="#7C7C00" font_color="black" font_size="18pt" x="962.167" y="1569.33" width="681.833" height="396.667" name="Statistics">
+					<item uid="913"/>
+					<item uid="914"/>
+					<item uid="915"/>
+					<item uid="916"/>
+					<item uid="931"/>
+					<item uid="956"/>
+					<item uid="957"/>
+					<item uid="958"/>
+					<item uid="959"/>
+					<item uid="960"/>
+					<item uid="961"/>
+					<item uid="962"/>
+				</group>
+				<aux x="1388" y="1893.5" name="DATA: waste in landfill"/>
+				<numeric_display uid="918" x="2011" y="3371" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Waste_transferring_to_Nsumnia"/>
+				</numeric_display>
+				<aux x="1976" y="2783.75" name="working capacity"/>
+				<aux x="2015.33" y="2729" name="Working capacity of the recovery facilities"/>
+				<connector uid="923" angle="66.8088">
+					<from>working_capacity</from>
+					<to>Working_capacity_of_the_recovery_facilities</to>
+				</connector>
+				<connector uid="924" angle="332.895">
+					<from>&quot;Processing_capacity_in_the_recovery_facilities_(ACARP_+_IRECOP)_per_year&quot;</from>
+					<to>Working_capacity_of_the_recovery_facilities</to>
+				</connector>
+				<connector uid="925" angle="325.235">
+					<from>Working_capacity_of_the_recovery_facilities</from>
+					<to>Recovery_capacity_of_mixed_waste</to>
+				</connector>
+				<numeric_display uid="931" x="1378" y="1573" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true"/>
+				<stacked_container uid="932" x="2882.5" y="3859.75" width="510" height="348.5">
+					<graph width="510" height="348.5" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="mixed_waste_generation"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<numeric_display uid="933" x="1116" y="2406.67" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"On-site_separated_rate"'/>
+				</numeric_display>
+				<numeric_display uid="934" x="1171" y="2202" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"%_of_population_with_Environmental_knowledge"'/>
+				</numeric_display>
+				<stacked_container uid="936" x="1662.08" y="1571" width="784" height="250">
+					<table width="784" height="250">
+						<item type="time"/>
+						<item>
+							<entity name="Population_Data"/>
+						</item>
+						<item>
+							<entity name="Total_population"/>
+						</item>
+						<item>
+							<entity name='"DATA:_waste_in_landfill"'/>
+						</item>
+						<item>
+							<entity name='"Waste_in_landfill_(Kpone)"'/>
+						</item>
+						<item>
+							<entity name="Collection_coverage_for_calibration"/>
+						</item>
+					</table>
+				</stacked_container>
+				<numeric_display uid="938" x="87" y="549" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"delay_(time_effect)_duration"'/>
+				</numeric_display>
+				<numeric_display uid="939" x="734.708" y="334" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Boost_of_environmental_campaigns"/>
+				</numeric_display>
+				<aux x="1140" y="3852.5" name="Formal contribution"/>
+				<connector uid="940" angle="350.143">
+					<from>
+						<alias uid="840"/>
+					</from>
+					<to>Formal_contribution</to>
+				</connector>
+				<connector uid="941" angle="265.721">
+					<from>waste_collected_per_year</from>
+					<to>Formal_contribution</to>
+				</connector>
+				<stacked_container uid="950" x="2431" y="4518">
+					<graph width="350" height="250" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"Mixed_Material_recovering_-_formal"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<numeric_display uid="951" x="683" y="3180.7" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"%_of_value_recovered_for_CE_investments"'/>
+				</numeric_display>
+				<numeric_display uid="952" x="892" y="3587" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Informal_collectors_sensitivity_to_the_collection_gap"/>
+				</numeric_display>
+				<numeric_display uid="953" x="1963" y="2578" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Increases_in_formal_recovery_capacity"/>
+				</numeric_display>
+				<numeric_display uid="956" x="1378" y="1607.38" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true"/>
+				<numeric_display uid="957" x="1375" y="1640" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true"/>
+				<numeric_display uid="958" x="1375" y="1673" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true"/>
+				<numeric_display uid="959" x="1378" y="1704" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true"/>
+				<numeric_display uid="960" x="1375" y="1741" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true"/>
+				<numeric_display uid="961" x="1378" y="1813" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true"/>
+				<numeric_display uid="962" x="1375" y="1775" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true"/>
+				<aux x="3014" y="2997" name="Waste landfilled or dumped"/>
+				<connector uid="969" angle="62.1027">
+					<from>
+						<alias uid="873"/>
+					</from>
+					<to>Waste_landfilled_or_dumped</to>
+				</connector>
+				<connector uid="970" angle="102.775">
+					<from>
+						<alias uid="968"/>
+					</from>
+					<to>Waste_landfilled_or_dumped</to>
+				</connector>
+				<stacked_container uid="974" x="194" y="1159.75">
+					<graph width="350" height="250" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"Attribute_Population_class_20-39"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="975" x="2074.94" y="1855.34" width="350" height="386">
+					<graph width="350" height="386" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"%_of_population_that_separate_waste"'/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name="Peer_Effect_Dynamics_for_a_Circular_Economy"/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name='"On-site_separated_rate"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="976" x="1534" y="1992" width="452" height="294">
+					<graph width="452" height="294" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"Waste_in_landfill_(Kpone)"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="977" x="567.5" y="2173.09">
+					<graph width="350" height="250" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="waste_generated_per_person_per_year"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux x="2276.88" y="2838" name="Material recovered by ACARP &amp; IRECOP"/>
+				<connector uid="979" angle="55.5345">
+					<from>&quot;Mixed_Material_recovering_-_formal&quot;</from>
+					<to>&quot;Material_recovered_by_ACARP_&amp;_IRECOP&quot;</to>
+				</connector>
+				<connector uid="980" angle="165.964">
+					<from>&quot;%_of_material_recovered_per_tonne&quot;</from>
+					<to>&quot;Material_recovered_by_ACARP_&amp;_IRECOP&quot;</to>
+				</connector>
+				<connector uid="981" angle="8.3218">
+					<from>
+						<alias uid="982"/>
+					</from>
+					<to>&quot;%_of_waste_recovered_per_year&quot;</to>
+				</connector>
+				<aux x="1269" y="3419.74" name="Daily material\nrecover by informals"/>
+				<connector uid="984" angle="162.965">
+					<from>Material_recovery_by_informal_sector</from>
+					<to>Daily_material_recover_by_informals</to>
+				</connector>
+				<connector uid="987" angle="284.506">
+					<from>
+						<alias uid="988"/>
+					</from>
+					<to>Daily_material_recover_by_informals</to>
+				</connector>
+				<aux x="2734" y="2573.42" name="formal collection rate"/>
+				<connector uid="990" angle="150.833">
+					<from>
+						<alias uid="782"/>
+					</from>
+					<to>formal_collection_rate</to>
+				</connector>
+				<connector uid="991" angle="165.148">
+					<from>
+						<alias uid="775"/>
+					</from>
+					<to>formal_collection_rate</to>
+				</connector>
+				<numeric_display uid="992" x="2625" y="2523.92" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="formal_collection_rate"/>
+				</numeric_display>
+				<numeric_display uid="993" x="2690.5" y="2693" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Increases_in_other_recovery_capacities"/>
+				</numeric_display>
+				<connector uid="994" angle="206.67">
+					<from>formal_collection_rate</from>
+					<to>Quality_of_waste_material_index</to>
+				</connector>
+				<connector uid="995" angle="172.093">
+					<from>
+						<alias uid="989"/>
+					</from>
+					<to>Quality_of_waste_material_index</to>
+				</connector>
+				<stacked_container uid="996" x="3154" y="2718.92" width="407" height="269.08">
+					<graph width="407" height="269.08" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Value_recovered_by_formal_collectors"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<numeric_display uid="998" x="487.75" y="447.5" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name='"Constant_effect_of_environmental_campaigns_#1"'/>
+				</numeric_display>
+				<numeric_display uid="999" x="580" y="570" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="environmental_knowledge_increasing_2"/>
+				</numeric_display>
+				<numeric_display uid="1000" x="422.25" y="635.875" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="decreasing_attribute"/>
+				</numeric_display>
+				<numeric_display uid="1001" x="2032" y="2747" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Other_private_sector_recovery_facilities"/>
+				</numeric_display>
+				<numeric_display uid="1002" x="1832" y="2693" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Working_capacity_of_the_recovery_facilities"/>
+				</numeric_display>
+				<stacked_container uid="1003" x="2000.25" y="2238" width="296" height="193">
+					<graph width="296" height="193" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Working_capacity_of_the_recovery_facilities"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="1004" x="2488" y="2371.67">
+					<graph width="350" height="250" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Increases_in_formal_recovery_capacity"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="1005" x="2888" y="2392.67">
+					<graph width="350" height="250" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"Mixed_Material_recovering_-_formal"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<numeric_display uid="1007" x="1744" y="2896" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Waste_inventory_of_formal_recyclers"/>
+				</numeric_display>
+				<connector uid="1008" angle="306.513">
+					<from>&quot;Mixed_Material_recovering_-_formal&quot;</from>
+					<to>Waste_Inventory_return_to_landfill</to>
+				</connector>
+				<stacked_container uid="1009" x="3157.25" y="3305" width="400.5" height="257">
+					<graph width="400.5" height="257" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Waste_Inventory_return_to_landfill"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="1018" x="1193" y="2106">
+					<graph width="350" height="250" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"DATA:_waste_in_landfill"'/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"Waste_in_landfill_(Kpone)"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="1022" x="2832.88" y="3041">
+					<graph width="350" height="250" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Increases_in_other_recovery_capacities"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux x="1064" y="1891" name="DATA: Collection coverage"/>
+				<numeric_display uid="1036" x="605" y="4111" width="200" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true"/>
+				<stacked_container uid="1037" x="850.333" y="4237">
+					<table width="350" height="250">
+						<item type="time"/>
+						<item>
+							<entity name='"Waste_collected_(as_%_of_mixed_waste)"'/>
+						</item>
+					</table>
+				</stacked_container>
+				<stacked_container uid="1023" x="637" y="1772" width="257" height="217">
+					<graph width="257" height="217" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name='"DATA:_Collection_coverage"'/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"DATA:_Collection_coverage"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name="Collection_coverage_for_calibration"/>
+						</plot>
+						<plot color="#008F44" pen_style="dashed" isee:keep_zero_visible="true" pen_width="1" index="3" show_y_axis="true">
+							<entity name='"Waste_collected_(as_%_of_mixed_waste)"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<alias font_style="italic" label_side="top" uid="151" x="1309.42" y="1072.75" width="18" height="18">
+					<of>&quot;average_attribute_0-19&quot;</of>
+				</alias>
+				<alias font_style="italic" label_side="top" uid="153" x="1391.09" y="1032.25" width="18" height="18">
+					<of>&quot;average_attribute_20-39&quot;</of>
+				</alias>
+				<alias font_style="italic" label_side="top" uid="155" x="1446.25" y="1072.75" width="18" height="18">
+					<of>&quot;average_attribute_40-59&quot;</of>
+				</alias>
+				<alias font_style="italic" label_side="top" uid="157" x="1489.25" y="1108.08" width="18" height="18">
+					<of>&quot;average_attribute_60+&quot;</of>
+				</alias>
+				<alias background="white" font_style="italic" font_size="12pt" uid="214" x="2104" y="3887.5" width="27" height="27">
+					<of>&quot;Total_waste_(tonnes)_generated_per_year&quot;</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" uid="673" x="2269.5" y="2505.92" width="18" height="18">
+					<shape type="circle" radius="18"/>
+					<of>year</of>
+				</alias>
+				<alias font_style="italic" label_side="top" uid="678" x="1203" y="2264.34" width="18" height="18">
+					<of>&quot;%_of_population_with_Environmental_knowledge&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="715" x="1078" y="2937.5" width="18" height="18">
+					<of>year</of>
+				</alias>
+				<alias font_style="italic" uid="731" x="687" y="2923" width="18" height="18">
+					<of>&quot;collection_rate_-_informal&quot;</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" uid="742" x="1002" y="3437" width="18" height="18">
+					<shape type="circle" radius="18"/>
+					<of>collection_gap_to_cover</of>
+				</alias>
+				<alias font_style="italic" uid="765" x="2949" y="2892" width="18" height="18">
+					<of>year</of>
+				</alias>
+				<alias background="white" font_style="italic" font_size="10pt" label_side="right" uid="775" x="2795" y="2559.92" width="27" height="27">
+					<of>&quot;Total_waste_(tonnes)_generated_per_year&quot;</of>
+				</alias>
+				<alias font_style="italic" font_size="12pt" label_side="right" uid="782" x="2799.5" y="2606" width="18" height="18">
+					<of>&quot;collection_of_recyclables_(formal)&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="788" x="1979" y="3192" width="18" height="18">
+					<of>&quot;Mixed_Material_recovering_-_formal&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="825" x="717.625" y="3129" width="18" height="18">
+					<of>Annual_Value_Stream</of>
+				</alias>
+				<alias background="white" font_style="italic" font_size="12pt" label_side="top" uid="836" x="841.333" y="3755" width="18" height="18">
+					<of>mixed_waste_generation</of>
+				</alias>
+				<alias font_style="italic" label_side="top" uid="838" x="1081.67" y="3753" width="22" height="22">
+					<of>Informal_waste_collecting</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" label_side="top" uid="840" x="1053.17" y="3815.83" width="15" height="15">
+					<shape type="circle" radius="18"/>
+					<of>Formal_waste_collecting</of>
+				</alias>
+				<alias background="white" font_style="italic" font_size="12pt" uid="851" x="2108.5" y="3821" width="18" height="18">
+					<of>&quot;on-site_separation&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="857" x="2716.83" y="4037" width="18" height="18">
+					<of>Collection_coverage_gap</of>
+				</alias>
+				<alias background="white" font_style="italic" uid="861" x="1997" y="3047" width="18" height="18">
+					<of>year</of>
+				</alias>
+				<alias background="white" font_style="italic" uid="864" x="2032" y="3160.71" width="18" height="18">
+					<of>year</of>
+				</alias>
+				<alias font_style="italic" uid="873" x="2959" y="3050" width="18" height="18">
+					<of>dumping_waste</of>
+				</alias>
+				<alias font_style="italic" uid="875" x="2781.5" y="3101.5" width="18" height="18">
+					<of>Waste_Inventory_return_to_landfill</of>
+				</alias>
+				<alias font_style="italic" font_size="12pt" uid="878" x="2172" y="3976" width="18" height="18">
+					<of>&quot;collection_of_recyclables_(formal)&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="879" x="2169" y="4045" width="18" height="18">
+					<of>Formal_waste_collecting</of>
+				</alias>
+				<alias font_style="italic" uid="880" x="2170" y="4090" width="22" height="22">
+					<of>Informal_waste_collecting</of>
+				</alias>
+				<alias font_style="italic" uid="886" x="2110" y="4159" width="16" height="16">
+					<of>Material_recovery_by_informal_sector</of>
+				</alias>
+				<alias font_style="italic" uid="891" x="2105" y="4288" width="18" height="18">
+					<of>&quot;On-Site_waste_-_Material_Recovered&quot;</of>
+				</alias>
+				<alias font_style="italic" font_size="12pt" label_side="top" uid="898" x="2282.56" y="2681.21" width="18" height="18">
+					<of>Overflow_of_waste_in_landfill</of>
+				</alias>
+				<alias font_style="italic" uid="906" x="2190.25" y="2619" width="18" height="18">
+					<of>year</of>
+				</alias>
+				<alias font_style="italic" uid="914" x="1029" y="1777" width="18" height="18">
+					<of>Population_Data</of>
+				</alias>
+				<alias font_style="italic" uid="916" x="1478.38" y="1869.38" width="109.25" height="48.25">
+					<of>&quot;Waste_in_landfill_(Kpone)&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="968" x="3052.88" y="3050" width="18" height="18">
+					<of>Waste_Inventory_return_to_landfill</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" uid="982" x="2105" y="4219" width="18" height="18">
+					<shape type="circle" radius="18"/>
+					<of>&quot;Material_recovered_by_ACARP_&amp;_IRECOP&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="988" x="1242" y="3337.08" width="18" height="18">
+					<of>year</of>
+				</alias>
+				<alias font_style="italic" label_side="right" uid="989" x="2758" y="2675" width="18" height="18">
+					<of>&quot;On-site_separation_rate&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="915" x="1129" y="1783" width="18" height="18">
+					<of>Total_population</of>
+				</alias>
+				<alias font_style="italic" uid="913" x="1157" y="1876" width="18" height="18">
+					<of>Collection_coverage_for_calibration</of>
+				</alias>
+			</view>
+		</views>
+	</model>
+</xmile>
+
